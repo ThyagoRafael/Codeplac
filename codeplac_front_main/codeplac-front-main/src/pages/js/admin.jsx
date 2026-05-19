@@ -6,9 +6,9 @@ import { getAllUsers, modifyUserFunction } from "../../services/userService";
 import { getAllEvents, createEvent } from "../../services/eventService";
 
 export default function Admin() {
-  // Removi os estados que você não estava usando nos botões de Ação
   const [showEventForm, setShowEventForm] = useState(false);
   const [users, setUsers] = useState([]);
+  const [events, setEvents] = useState([]); // Agora usado para listar eventos
   const [changedFunction, setChangedFunctions] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -18,7 +18,7 @@ export default function Admin() {
     dataEvento: "",
     lugar: "",
     periodo: "MATUTINO",
-    tipoEvento: "COMPETIÇÃO",
+    tipoEvento: "COMPETICAO",
   });
 
   const savedUser = JSON.parse(localStorage.getItem("user"));
@@ -32,7 +32,7 @@ export default function Admin() {
         ]);
 
         if (usersData.status === "fulfilled") setUsers(usersData.value);
-        // Se você não for exibir a lista de eventos na tabela, pode ignorar o eventsData
+        if (eventsData.status === "fulfilled") setEvents(eventsData.value);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
       }
@@ -79,9 +79,12 @@ export default function Admin() {
         dataEvento: "",
         lugar: "",
         periodo: "MATUTINO",
-        tipoEvento: "COMPETIÇÃO",
+        tipoEvento: "COMPETICAO",
       });
       setShowEventForm(false);
+      // Atualiza a lista automaticamente após criar
+      const updatedEvents = await getAllEvents();
+      setEvents(updatedEvents);
     } catch (error) {
       alert("Erro ao criar evento: " + error.message);
     } finally {
@@ -145,6 +148,27 @@ export default function Admin() {
         {/* SEÇÃO EVENTOS */}
         <section className="painel-section">
           <h2 className="painel-title">ADMINISTRAÇÃO DE EVENTOS</h2>
+
+          {/* Tabela de Listagem de Eventos */}
+          <table className="painel-table mb-4">
+            <thead>
+              <tr>
+                <th>Evento</th>
+                <th>Data</th>
+                <th>Local</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((evt) => (
+                <tr key={evt.idEvento}>
+                  <td>{evt.nomeEvento}</td>
+                  <td>{evt.dataEvento}</td>
+                  <td>{evt.lugar}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
           <button
             className="btn-outline-cyan mt-2 mb-3"
             onClick={() => setShowEventForm(!showEventForm)}
@@ -190,6 +214,28 @@ export default function Admin() {
                   setNewEvent({ ...newEvent, lugar: e.target.value })
                 }
               />
+
+              <div className="tags-group">
+                <label>Tipo do Evento</label>
+                <div className="tags-buttons">
+                  <button
+                    className={`tag-btn ${newEvent.tipoEvento === "COMPETICAO" ? "active" : ""}`}
+                    onClick={() =>
+                      setNewEvent({ ...newEvent, tipoEvento: "COMPETICAO" })
+                    }
+                  >
+                    Competição
+                  </button>
+                  <button
+                    className={`tag-btn ${newEvent.tipoEvento === "PALESTRA" ? "active" : ""}`}
+                    onClick={() =>
+                      setNewEvent({ ...newEvent, tipoEvento: "PALESTRA" })
+                    }
+                  >
+                    Palestra
+                  </button>
+                </div>
+              </div>
 
               <button
                 className="btn-outline-cyan mt-3"
