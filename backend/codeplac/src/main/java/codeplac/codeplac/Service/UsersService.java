@@ -90,17 +90,12 @@ public class UsersService {
         }
     }
 
-    /**
-     * CORREÇÃO: Atualiza dinamicamente os campos enviados pelo corpo da requisição
-     * JSON do React.
-     */
     public UserResponse updateUser(String cpf, UsersModel user) throws Excecao {
         String normalizedCpf = cpf.replaceAll("[^0-9]", "");
 
         UsersModel existingUser = usersRepository.findByCpf(normalizedCpf)
                 .orElseThrow(() -> new Excecao("Usuário não encontrado com CPF: " + normalizedCpf));
 
-        // Atualização de campos dinâmicos (Só altera o que não for nulo/vazio)
         if (isValid(user.getEmail())) {
             existingUser.setEmail(user.getEmail());
         }
@@ -128,6 +123,8 @@ public class UsersService {
     }
 
     private UserResponse createUserResponse(UsersModel user) {
+        // CORREÇÃO: Agora passa o 9º parâmetro (user.getFotoPerfil()) para preencher o
+        // DTO que vai pro React
         return new UserResponse(
                 user.getEmail(),
                 user.getNome(),
@@ -136,7 +133,8 @@ public class UsersService {
                 user.getCpf(),
                 user.getTipoUsuario(),
                 user.getRefreshToken(),
-                user.getAccessToken());
+                user.getAccessToken(),
+                user.getFotoPerfil());
     }
 
     private boolean isValid(String value) {
