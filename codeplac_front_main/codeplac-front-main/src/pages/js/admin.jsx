@@ -3,12 +3,16 @@ import "../css/admin.css";
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
 import { getAllUsers, modifyUserFunction } from "../../services/userService";
-import { getAllEvents, createEvent } from "../../services/eventService";
+import {
+  getAllEvents,
+  createEvent,
+  deleteEvent,
+} from "../../services/eventService";
 
 export default function Admin() {
   const [showEventForm, setShowEventForm] = useState(false);
   const [users, setUsers] = useState([]);
-  const [events, setEvents] = useState([]); // Agora usado para listar eventos
+  const [events, setEvents] = useState([]);
   const [changedFunction, setChangedFunctions] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -17,6 +21,7 @@ export default function Admin() {
     descricao: "",
     dataEvento: "",
     lugar: "",
+    horario: "",
     periodo: "MATUTINO",
     tipoEvento: "COMPETICAO",
   });
@@ -78,17 +83,27 @@ export default function Admin() {
         descricao: "",
         dataEvento: "",
         lugar: "",
+        horario: "",
         periodo: "MATUTINO",
         tipoEvento: "COMPETICAO",
       });
       setShowEventForm(false);
-      // Atualiza a lista automaticamente após criar
-      const updatedEvents = await getAllEvents();
-      setEvents(updatedEvents);
+      setEvents(await getAllEvents());
     } catch (error) {
       alert("Erro ao criar evento: " + error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteEvent = async (id) => {
+    if (!window.confirm("Deseja mesmo apagar este evento?")) return;
+    try {
+      await deleteEvent(id, savedUser.token);
+      setEvents(events.filter((e) => e.idEvento !== id));
+      alert("Evento removido!");
+    } catch (error) {
+      alert("Erro ao deletar evento: " + error.message);
     }
   };
 
@@ -148,14 +163,13 @@ export default function Admin() {
         {/* SEÇÃO EVENTOS */}
         <section className="painel-section">
           <h2 className="painel-title">ADMINISTRAÇÃO DE EVENTOS</h2>
-
-          {/* Tabela de Listagem de Eventos */}
           <table className="painel-table mb-4">
             <thead>
               <tr>
                 <th>Evento</th>
                 <th>Data</th>
-                <th>Local</th>
+                <th>Horário</th>
+                <th>Ações</th>
               </tr>
             </thead>
             <tbody>
@@ -163,7 +177,15 @@ export default function Admin() {
                 <tr key={evt.idEvento}>
                   <td>{evt.nomeEvento}</td>
                   <td>{evt.dataEvento}</td>
-                  <td>{evt.lugar}</td>
+                  <td>{evt.horario}</td>
+                  <td>
+                    <button
+                      className="btn-remover"
+                      onClick={() => handleDeleteEvent(evt.idEvento)}
+                    >
+                      Apagar
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -205,15 +227,23 @@ export default function Admin() {
                 />
               </div>
 
-              <input
-                type="text"
-                placeholder="Local"
-                className="full-width mb-3"
-                value={newEvent.lugar}
-                onChange={(e) =>
-                  setNewEvent({ ...newEvent, lugar: e.target.value })
-                }
-              />
+              <div className="event-description-grid mb-3">
+                <input
+                  type="time"
+                  value={newEvent.horario}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, horario: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Local"
+                  value={newEvent.lugar}
+                  onChange={(e) =>
+                    setNewEvent({ ...newEvent, lugar: e.target.value })
+                  }
+                />
+              </div>
 
               <div className="tags-group">
                 <label>Tipo do Evento</label>
