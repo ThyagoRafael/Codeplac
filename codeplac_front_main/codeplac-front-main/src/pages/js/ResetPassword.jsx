@@ -1,36 +1,44 @@
 import React, { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { baseUrl } from "../../services/api"; // Ajuste o caminho se necessário para achar o seu api.js
+
+import { baseUrl } from "../../services/api";
+
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
+import Circle from "../../Components/jsx/circle";
 import sapoImg from "../../assets/img/sapobone.png";
+
+import "../css/senha.css"; // Reutiliza os estilos da tela de senha base
 
 function ResetPassword() {
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token"); // Pega o token enviado na URL pelo Java
+  const token = searchParams.get("token"); // Captura o token UUID da URL
   const navigate = useNavigate();
 
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     if (!newPassword || !confirmPassword) {
-      alert("Preencha todos os campos!");
+      setErrorMessage("Preencha todos os campos!");
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      alert("As senhas não coincidem!");
+      setErrorMessage("As senhas não coincidem!");
       return;
     }
 
     try {
       setLoading(true);
 
-      // Envia a nova senha para o endpoint correto do seu Back-end no Render
+      // CORREÇÃO DA REQUISIÇÃO: Mudamos de Axios para o 'fetch' padrão que seu projeto usa!
+      // Enviando a chave "newPassword" exatamente como o seu AuthController espera receber no Map
       const response = await fetch(
         `${baseUrl}/auth/reset-password?token=${token}`,
         {
@@ -38,19 +46,30 @@ function ResetPassword() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ newPassword: newPassword }),
+          body: JSON.stringify({
+            newPassword: newPassword,
+          }),
         },
       );
 
-      if (response.ok) {
-        alert("Senha redefinida com sucesso!");
-        navigate("/login"); // Redireciona para o login
-      } else {
-        alert("Token inválido ou expirado. Solicite uma nova recuperação.");
+      // Como o fetch não joga o erro pro catch em respostas 400/500, tratamos manualmente:
+      if (!response.ok) {
+        // Tenta ler a mensagem de erro vinda do Spring Boot, se houver
+        try {
+          const errorData = await response.json();
+          throw new Error(errorData.message || "Token inválido ou expirado.");
+        } catch (jsonError) {
+          throw new Error(
+            "Token inválido ou expirado. Solicite uma nova recuperação.",
+          );
+        }
       }
+
+      alert("Senha redefinida com sucesso!");
+      navigate("/login"); // Redireciona o usuário para o login
     } catch (error) {
       console.error(error);
-      alert("Erro ao conectar com o servidor.");
+      setErrorMessage(error.message);
     } finally {
       setLoading(false);
     }
@@ -60,115 +79,88 @@ function ResetPassword() {
     <div className="PageWrapper">
       <div className="App login-container">
         <Header />
-        <main
-          style={{
-            padding: "100px 20px",
-            display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="login-box"
-            style={{
-              display: "flex",
-              background: "#001224",
-              padding: "40px",
-              borderRadius: "12px",
-              maxWidth: "800px",
-              width: "100%",
-            }}
-          >
-            <div
-              className="login-image-container"
-              style={{
-                flex: 1,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <img src={sapoImg} alt="Sapo" style={{ maxWidth: "80% " }} />
+
+        {/* Efeitos de Fundo Neon */}
+        <div className="recovery-circle">
+          <Circle size={500} variant="cyan" className="recovery-circle-left" />
+          <Circle size={400} variant="cyan" className="recovery-circle-right" />
+        </div>
+
+        <main className="login-main">
+          <section className="login-card recovery-card">
+            <div className="login-content">
+              {/* Lado Esquerdo: Mascote */}
+              <div className="login-mascot-container">
+                <img
+                  src={sapoImg}
+                  alt="Mascote CodeplaC"
+                  className="mascot-img"
+                />
+              </div>
+
+              {/* Lado Direito: Formulário de Redefinição */}
+              <div className="login-form-container">
+                <h1 className="login-title uppercase">NOVA SENHA</h1>
+                <div className="title-underline"></div>
+
+                <p className="recovery-instruction">
+                  DIGITE SUA NOVA SENHA DE ACESSO <br />E CONFIRME ABAIXO.
+                </p>
+
+                <form className="login-form" onSubmit={handleSubmit}>
+                  <div className="login-input-group">
+                    <label>NOVA SENHA</label>
+                    <input
+                      type="password"
+                      name="newPassword"
+                      placeholder="Digite sua nova senha"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                    />
+                  </div>
+
+                  <div
+                    className="login-input-group"
+                    style={{ marginTop: "15px" }}
+                  >
+                    <label>CONFIRMAR SENHA</label>
+                    <input
+                      type="password"
+                      name="confirmPassword"
+                      placeholder="Confirme sua nova senha"
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                  </div>
+
+                  {errorMessage && (
+                    <div
+                      style={{
+                        color: "#ff4d4d",
+                        fontSize: "14px",
+                        marginTop: "15px",
+                        textAlign: "center",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {errorMessage}
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    className="btn-login btn-send"
+                    style={{ marginTop: "20px" }}
+                    disabled={loading}
+                  >
+                    {loading ? "ALTERANDO..." : "REDEFINIR SENHA"}
+                  </button>
+                </form>
+              </div>
             </div>
-
-            <div
-              className="login-form-container"
-              style={{ flex: 1, paddingLeft: "40px", color: "#fff" }}
-            >
-              <h1 className="login-title">DIGITE A NOVA SENHA</h1>
-              <div className="title-underline"></div>
-
-              <form
-                className="login-form"
-                onSubmit={handleSubmit}
-                style={{ marginTop: "20px" }}
-              >
-                <div
-                  className="login-input-group"
-                  style={{ marginBottom: "15px" }}
-                >
-                  <label style={{ display: "block", marginBottom: "5px" }}>
-                    NOVA SENHA
-                  </label>
-                  <input
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Digite a nova senha"
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "6px",
-                      border: "1px solid #00eaff",
-                      background: "transparent",
-                      color: "#fff",
-                    }}
-                  />
-                </div>
-
-                <div
-                  className="login-input-group"
-                  style={{ marginBottom: "20px" }}
-                >
-                  <label style={{ display: "block", marginBottom: "5px" }}>
-                    CONFIRMAR SENHA
-                  </label>
-                  <input
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirme a nova senha"
-                    style={{
-                      width: "100%",
-                      padding: "10px",
-                      borderRadius: "6px",
-                      border: "1px solid #00eaff",
-                      background: "transparent",
-                      color: "#fff",
-                    }}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn-login"
-                  disabled={loading}
-                  style={{
-                    width: "100%",
-                    padding: "12px",
-                    background: "#00eaff",
-                    color: "#000",
-                    border: "none",
-                    borderRadius: "6px",
-                    fontWeight: "bold",
-                    cursor: "pointer",
-                  }}
-                >
-                  {loading ? "ALTERANDO..." : "REDEFINIR SENHA"}
-                </button>
-              </form>
-            </div>
-          </div>
+          </section>
         </main>
+
         <Footer />
       </div>
     </div>

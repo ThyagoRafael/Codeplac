@@ -7,44 +7,53 @@ import Circle from "../../Components/jsx/circle";
 import { useNavigate } from "react-router-dom";
 import { getUserByCpf, updateUser } from "../../services/userService";
 import { capitalize } from "../../utils/capitalize";
-import { getChangedFields } from "../../utils/getChangedFields"
+import { getChangedFields } from "../../utils/getChangedFields";
 
 function Perfil() {
   // Estados para controlar os dados do usuário
   const [isEditing, setIsEditing] = useState(false);
-  const [originalData, setOriginalData] = useState({})
+  const [originalData, setOriginalData] = useState({});
   const [userData, setUserData] = useState({
     nome: "",
     email: "",
     cpf: "",
     telefone: "",
+    fotoPerfil: "", // Mapeado o campo dentro do objeto de dados
   });
-  const [userAvatar, setUserAvatar] = useState(null)
-  const navigate = useNavigate()
-  const savedUser = JSON.parse(localStorage.getItem("user"))
+  const [userAvatar, setUserAvatar] = useState(null);
+  const navigate = useNavigate();
+
+  // Captura os dados salvos com segurança para evitar crash
+  const savedUserString = localStorage.getItem("user");
+  const savedUser = savedUserString ? JSON.parse(savedUserString) : null;
 
   useEffect(() => {
     const loadUserData = async () => {
-      const cpf = savedUser.cpf
-      const token = savedUser.token
-
-      if(!cpf || !token) {
-        return navigate("/login")
+      if (!savedUser || !savedUser.cpf || !savedUser.token) {
+        return navigate("/login");
       }
 
       try {
-        const data = await getUserByCpf(cpf, token)
+        const data = await getUserByCpf(savedUser.cpf, savedUser.token);
 
-        setUserData(data)
-        setOriginalData({...data })
+        setUserData(data);
+        setOriginalData({ ...data });
+
+        // CORREÇÃO 1: Se o usuário já tiver foto no banco de dados, carrega ela na tela
+        if (data.fotoPerfil) {
+          setUserAvatar(data.fotoPerfil);
+        }
       } catch (error) {
-        alert("Erro ao carregar informações do usuário. Faça o login novamente!")
-        navigate("/login")
+        alert(
+          "Erro ao carregar informações do usuário. Faça o login novamente!",
+        );
+        navigate("/login");
       }
-    }
+    };
 
-    loadUserData()
-  }, [savedUser.token, savedUser.cpf, navigate])
+    loadUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [navigate]);
 
   // Função para lidar com a troca de textos
   const handleInputChange = (e) => {
@@ -60,32 +69,42 @@ function Perfil() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setUserAvatar(reader.result);
+
+        // CORREÇÃO 2: Sincroniza a foto com o objeto userData.
+        // Agora o 'getChangedFields' vai saber que a foto mudou e vai enviar pro Back-end!
+        setUserData((prev) => ({ ...prev, fotoPerfil: reader.result }));
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleSave = async () => {
-    const changedFields = getChangedFields(originalData, userData)
+    const changedFields = getChangedFields(originalData, userData);
 
     if (Object.keys(changedFields).length === 0) {
-      alert("Não há mudanças!")
-
-      setIsEditing(false)
-      return
+      alert("Não há mudanças!");
+      setIsEditing(false);
+      return;
     }
 
     try {
-      const data = await updateUser(savedUser.cpf, savedUser.token, changedFields)
-      setOriginalData(data)
+      if (!savedUser || !savedUser.token) {
+        alert("Sessão expirada. Faça login novamente.");
+        return navigate("/login");
+      }
 
-      setIsEditing(false)
-
-      alert("Salvo com sucesso!")
+      const data = await updateUser(
+        savedUser.cpf,
+        savedUser.token,
+        changedFields,
+      );
+      setOriginalData(data);
+      setIsEditing(false);
+      alert("Salvo com sucesso!");
     } catch (error) {
-      alert("Erro ao atualizar o usuário!")
+      alert("Erro ao atualizar o usuário!");
     }
-  }
+  };
 
   return (
     <div className="profile-page-wrapper">
@@ -136,12 +155,14 @@ function Perfil() {
                     <input
                       type="text"
                       name="nome"
-                      value={capitalize(userData.nome)}
+                      value={capitalize(userData.nome || "")}
                       onChange={handleInputChange}
                       className="profile-input-name"
                     />
                   ) : (
-                    <h1 className="profile-username">{capitalize(userData.nome)}</h1>
+                    <h1 className="profile-username">
+                      {capitalize(userData.nome || "")}
+                    </h1>
                   )}
 
                   <button
@@ -167,7 +188,7 @@ function Perfil() {
                       <input
                         type="email"
                         name="email"
-                        value={userData.email}
+                        value={userData.email || ""}
                         onChange={handleInputChange}
                       />
                     ) : (
@@ -180,7 +201,7 @@ function Perfil() {
                       <input
                         type="text"
                         name="cpf"
-                        value={userData.cpf}
+                        value={userData.cpf || ""}
                         readOnly
                       />
                     ) : (
@@ -193,7 +214,7 @@ function Perfil() {
                       <input
                         type="tel"
                         name="telefone"
-                        value={userData.telefone}
+                        value={userData.telefone || ""}
                         onChange={handleInputChange}
                       />
                     ) : (

@@ -3,49 +3,58 @@ import logo from "../../assets/img/logoprincipalparaosite.png";
 import "../css/header.css";
 import { NavLink } from "react-router-dom";
 
-/* COMPONENTE DE CABEÇALHO PRINCIPAL */
 export const Header = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  /* GERENCIAMENTO DO ESTADO DE ROLAGEM */
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    const checkLogin = () => {
+      const user = localStorage.getItem("user");
+      setIsLoggedIn(!!user);
     };
 
+    checkLogin();
+    window.addEventListener("storage", checkLogin);
+
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("storage", checkLogin);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return (
     <header className={`header-container ${scrolled ? "scrolled" : ""}`}>
-      
-      {/* BARRA DE NAVEGAÇÃO PRINCIPAL */}
       <div className="header-main-bar">
         <img src={logo} alt="Codeplac" className="logo-img" />
-
-        {/* NAVEGAÇÃO DESKTOP */}
         <nav className="header-nav desktop-nav">
           <NavLink to="/" end>
             HOME
           </NavLink>
           <NavLink to="/ranking">RANKING</NavLink>
 
-          {/* MENU DROPDOWN DE ATIVIDADES */}
+          {/* DIV PAI QUE GERENCIA O HOVER DO DROPDOWN */}
           <div
             className="nav-item-dropdown"
             onMouseEnter={() => setDropdownOpen(true)}
             onMouseLeave={() => setDropdownOpen(false)}
           >
             <span className={dropdownOpen ? "active" : ""}>ATIVIDADES</span>
-
             {dropdownOpen && (
               <div className="dropdown-menu">
-                <NavLink to="/eventos">EVENTOS</NavLink>
-                <NavLink to="/historico">HISTÓRICO</NavLink>
-                <NavLink to="/galeria">GALERIA</NavLink>
+                <NavLink to="/eventos" onClick={() => setDropdownOpen(false)}>
+                  EVENTOS
+                </NavLink>
+                <NavLink to="/historico" onClick={() => setDropdownOpen(false)}>
+                  HISTÓRICO
+                </NavLink>
+                <NavLink to="/galeria" onClick={() => setDropdownOpen(false)}>
+                  GALERIA
+                </NavLink>
               </div>
             )}
           </div>
@@ -53,10 +62,8 @@ export const Header = () => {
           <NavLink to="/equipe">EQUIPE</NavLink>
           <NavLink to="/contato">CONTATOS</NavLink>
         </nav>
-
-        {/* BOTÃO DE MENU MOBILE (HAMBÚRGUER) */}
         <div
-          className={`mobile-menu-btn ${mobileOpen ? "open" : ""}`}
+          className="mobile-menu-btn"
           onClick={() => setMobileOpen(!mobileOpen)}
         >
           <span></span>
@@ -65,34 +72,26 @@ export const Header = () => {
         </div>
       </div>
 
-      {/* ÁREA DE AUTENTICAÇÃO */}
       <div className="header-login-btn">
-        <NavLink to="/login">LOGIN</NavLink>
+        {isLoggedIn ? (
+          <NavLink to="/perfil" className="active">
+            PERFIL
+          </NavLink>
+        ) : (
+          <NavLink to="/login">LOGIN</NavLink>
+        )}
       </div>
 
-      {/* NAVEGAÇÃO MOBILE */}
       {mobileOpen && (
         <div className="mobile-menu">
           <NavLink to="/" onClick={() => setMobileOpen(false)}>
             HOME
           </NavLink>
-          <NavLink to="/ranking" onClick={() => setMobileOpen(false)}>
-            RANKING
-          </NavLink>
-          <NavLink to="/eventos" onClick={() => setMobileOpen(false)}>
-            EVENTOS
-          </NavLink>
-          <NavLink to="/historico" onClick={() => setMobileOpen(false)}>
-            HISTÓRICO
-          </NavLink>
-          <NavLink to="/galeria" onClick={() => setMobileOpen(false)}>
-            GALERIA
-          </NavLink>
-          <NavLink to="/equipe" onClick={() => setMobileOpen(false)}>
-            EQUIPE
-          </NavLink>
-          <NavLink to="/contato" onClick={() => setMobileOpen(false)}>
-            CONTATOS
+          <NavLink
+            to={isLoggedIn ? "/perfil" : "/login"}
+            onClick={() => setMobileOpen(false)}
+          >
+            {isLoggedIn ? "PERFIL" : "LOGIN"}
           </NavLink>
         </div>
       )}
