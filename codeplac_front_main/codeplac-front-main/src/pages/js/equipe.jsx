@@ -18,6 +18,8 @@ import fotomavi from "../../assets/img/mavi.jpeg";
 import fotogiovanna from "../../assets/img/giovannafoto.jpeg";
 import fotocoordenador from "../../assets/img/coordenador.jpeg";
 import fotorhawan from "../../assets/img/rhawanfoto.jpeg";
+import fotopablo from "../../assets/img/fotopablo.jpg";
+import fotothiago from "../../assets/img/fotothiago.jpg";
 
 // CSS
 import "../css/equipe.css";
@@ -82,7 +84,7 @@ export function Equipe() {
         id: 7,
         nome: "Pablo Carvalho Silva",
         funcao: "Administrador de DBA",
-        foto: fotoPedro,
+        foto: fotopablo,
         cor: cores.ciano,
       },
       {
@@ -131,7 +133,7 @@ export function Equipe() {
         id: 14,
         nome: "Thyago Rafael de Carvalho",
         funcao: "Desenvolvedor backend",
-        foto: fotoPedro,
+        foto: fotothiago,
         cor: cores.ciano,
       },
       {

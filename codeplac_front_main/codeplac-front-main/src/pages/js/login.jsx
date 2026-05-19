@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom"; // IMPORTANTE: Importe o Link
 import "../css/login.css";
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
@@ -11,7 +11,7 @@ function Login() {
   const [formData, setFormData] = useState({
     cpf: "",
     password: "",
-    tipo: "PARTICIPANT", // Valor inicial padrão
+    tipo: "PARTICIPANT",
   });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -81,6 +81,7 @@ function Login() {
               <div className="login-form-container">
                 <h1 className="login-title">ACESSE SUA CONTA</h1>
                 <div className="title-underline"></div>
+
                 <form className="login-form" onSubmit={handleSubmit}>
                   <div className="login-input-group">
                     <label>TIPO DE CONTA</label>
@@ -119,6 +120,7 @@ function Login() {
                         color: "#ff4d4d",
                         textAlign: "center",
                         fontWeight: "bold",
+                        marginBottom: "10px",
                       }}
                     >
                       {errorMessage}
@@ -132,6 +134,45 @@ function Login() {
                     {loading ? "ENTRANDO..." : "LOGIN"}
                   </button>
                 </form>
+
+                {/* BOTÕES DE CADASTRAR E RECUPERAR SENHA ADICIONADOS AQUI */}
+                <div
+                  className="login-links"
+                  style={{
+                    marginTop: "20px",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    alignItems: "center",
+                  }}
+                >
+                  <Link
+                    to="/cadastro"
+                    style={{
+                      color: "#00eaff",
+                      textDecoration: "none",
+                      fontSize: "14px",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Não tem uma conta? Cadastre-se
+                  </Link>
+                  <Link
+                    to="/senha"
+                    style={{
+                      color: "rgba(255, 255, 255, 0.7)",
+                      textDecoration: "none",
+                      fontSize: "12px",
+                      transition: "color 0.3s",
+                    }}
+                    onMouseOver={(e) => (e.target.style.color = "#fff")}
+                    onMouseOut={(e) =>
+                      (e.target.style.color = "rgba(255, 255, 255, 0.7)")
+                    }
+                  >
+                    Esqueci minha senha
+                  </Link>
+                </div>
               </div>
             </div>
           </section>
