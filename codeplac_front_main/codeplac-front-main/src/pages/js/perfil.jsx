@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { User, Edit3, Save, Camera, History, FileText } from "lucide-react";
+import {
+  User,
+  Edit3,
+  Save,
+  Camera,
+  History,
+  FileText,
+  LogOut,
+} from "lucide-react";
 import "../css/perfil.css";
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
@@ -10,7 +18,6 @@ import { capitalize } from "../../utils/capitalize";
 import { getChangedFields } from "../../utils/getChangedFields";
 
 function Perfil() {
-  // Estados para controlar os dados do usuário
   const [isEditing, setIsEditing] = useState(false);
   const [originalData, setOriginalData] = useState({});
   const [userData, setUserData] = useState({
@@ -18,12 +25,12 @@ function Perfil() {
     email: "",
     cpf: "",
     telefone: "",
-    fotoPerfil: "", // Mapeado o campo dentro do objeto de dados
+    fotoPerfil: "",
   });
   const [userAvatar, setUserAvatar] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Captura os dados salvos com segurança para evitar crash
   const savedUserString = localStorage.getItem("user");
   const savedUser = savedUserString ? JSON.parse(savedUserString) : null;
 
@@ -35,43 +42,28 @@ function Perfil() {
 
       try {
         const data = await getUserByCpf(savedUser.cpf, savedUser.token);
-
         setUserData(data);
         setOriginalData({ ...data });
-
-        // CORREÇÃO 1: Se o usuário já tiver foto no banco de dados, carrega ela na tela
-        if (data.fotoPerfil) {
-          setUserAvatar(data.fotoPerfil);
-        }
+        if (data.fotoPerfil) setUserAvatar(data.fotoPerfil);
       } catch (error) {
-        alert(
-          "Erro ao carregar informações do usuário. Faça o login novamente!",
-        );
+        alert("Erro ao carregar informações. Faça o login novamente!");
         navigate("/login");
       }
     };
-
     loadUserData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [navigate]);
+  }, [navigate, savedUser, savedUser.cpf, savedUser.token]);
 
-  // Função para lidar com a troca de textos
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setUserData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Função para o upload de imagem
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setUserAvatar(reader.result);
-
-        // CORREÇÃO 2: Sincroniza a foto com o objeto userData.
-        // Agora o 'getChangedFields' vai saber que a foto mudou e vai enviar pro Back-end!
         setUserData((prev) => ({ ...prev, fotoPerfil: reader.result }));
       };
       reader.readAsDataURL(file);
@@ -80,7 +72,6 @@ function Perfil() {
 
   const handleSave = async () => {
     const changedFields = getChangedFields(originalData, userData);
-
     if (Object.keys(changedFields).length === 0) {
       alert("Não há mudanças!");
       setIsEditing(false);
@@ -88,11 +79,7 @@ function Perfil() {
     }
 
     try {
-      if (!savedUser || !savedUser.token) {
-        alert("Sessão expirada. Faça login novamente.");
-        return navigate("/login");
-      }
-
+      setLoading(true);
       const data = await updateUser(
         savedUser.cpf,
         savedUser.token,
@@ -103,6 +90,16 @@ function Perfil() {
       alert("Salvo com sucesso!");
     } catch (error) {
       alert("Erro ao atualizar o usuário!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    if (window.confirm("Deseja realmente sair da sua conta?")) {
+      localStorage.removeItem("user");
+      window.dispatchEvent(new Event("storage"));
+      navigate("/");
     }
   };
 
@@ -110,7 +107,6 @@ function Perfil() {
     <div className="profile-page-wrapper">
       <div className="profile-container">
         <Header />
-
         <div className="profile-bg-effects">
           <Circle
             size={400}
@@ -123,7 +119,6 @@ function Perfil() {
         <main className="profile-main-content">
           <section className="profile-card-box">
             <div className="profile-user-header">
-              {/* Avatar com Upload */}
               <div className="profile-avatar-container">
                 <div className="profile-avatar-placeholder">
                   {userAvatar ? (
@@ -164,10 +159,10 @@ function Perfil() {
                       {capitalize(userData.nome || "")}
                     </h1>
                   )}
-
                   <button
                     className={`profile-btn-edit ${isEditing ? "save" : ""}`}
                     onClick={isEditing ? handleSave : () => setIsEditing(true)}
+                    disabled={loading}
                   >
                     {isEditing ? (
                       <>
@@ -196,17 +191,7 @@ function Perfil() {
                     )}
                   </div>
                   <div className="profile-detail-item">
-                    <strong>CPF: </strong>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        name="cpf"
-                        value={userData.cpf || ""}
-                        readOnly
-                      />
-                    ) : (
-                      <span>{userData.cpf}</span>
-                    )}
+                    <strong>CPF: </strong> <span>{userData.cpf}</span>
                   </div>
                   <div className="profile-detail-item">
                     <strong>TELEFONE: </strong>
@@ -222,6 +207,11 @@ function Perfil() {
                     )}
                   </div>
                 </div>
+
+                {/* BOTÃO DE LOGOUT ADICIONADO */}
+                <button onClick={handleLogout} className="btn-logout">
+                  <LogOut size={16} /> SAIR DA CONTA
+                </button>
               </div>
             </div>
 
@@ -230,21 +220,18 @@ function Perfil() {
             <div className="profile-events-grid">
               <div className="profile-event-card">
                 <div className="profile-event-title">
-                  <History size={20} color="#00EAFF" />
-                  <h3>HISTÓRICO DE EVENTOS</h3>
+                  <History size={20} color="#00EAFF" /> <h3>HISTÓRICO</h3>
                 </div>
                 <div className="profile-event-content">
-                  <p>Sucesso na Era da Inteligência Artificial</p>
+                  <p>Sucesso na Era da IA</p>
                 </div>
               </div>
-
               <div className="profile-event-card">
                 <div className="profile-event-title">
-                  <FileText size={20} color="#00EAFF" />
-                  <h3>INSCRIÇÕES ATUAIS</h3>
+                  <FileText size={20} color="#00EAFF" /> <h3>INSCRIÇÕES</h3>
                 </div>
                 <div className="profile-event-content">
-                  <p>Sucesso na Era da Inteligência Artificial</p>
+                  <p>Sucesso na Era da IA</p>
                 </div>
               </div>
             </div>

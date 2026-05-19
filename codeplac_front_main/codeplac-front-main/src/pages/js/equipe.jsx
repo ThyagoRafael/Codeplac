@@ -32,7 +32,7 @@ export function Equipe() {
       },
       {
         id: 2,
-        nome: "Pedro Manoel",
+        nome: "",
         funcao: "CEO",
         foto: fotoPedro,
         cor: cores.ciano,
