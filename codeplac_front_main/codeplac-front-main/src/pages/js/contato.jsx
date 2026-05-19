@@ -23,8 +23,6 @@ function Contato() {
           </div>
 
           <main className="contato-main-container">
-            <h1 className="contato-main-title">Contatos</h1>
-
             {/* CARD INFORMATIVO */}
             <section className="info-card-contato">
               <div className="card-sidebar-contato">

@@ -17,6 +17,7 @@ import fotoemerson from "../../assets/img/emerson.jpeg";
 import fotomavi from "../../assets/img/mavi.jpeg";
 import fotogiovanna from "../../assets/img/giovannafoto.jpeg";
 import fotocoordenador from "../../assets/img/coordenador.jpeg";
+import fotorhawan from "../../assets/img/rhawanfoto.jpeg";
 
 // CSS
 import "../css/equipe.css";
@@ -116,7 +117,7 @@ export function Equipe() {
         id: 12,
         nome: "Rhawan Henrique de Jesus Moura",
         funcao: "Desenvolvedor frontend",
-        foto: fotoPedro,
+        foto: fotorhawan,
         cor: cores.ciano,
       },
       {
