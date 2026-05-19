@@ -8,7 +8,14 @@ import EquipeCard from "../../Components/jsx/EquipeCard";
 import Circle from "../../Components/jsx/circle";
 
 // Assets
-import fotoPedro from "../../assets/img/profpedroteste.png";
+import fotoPedro from "../../assets/img/profpedro.jpeg";
+import fotoagatha from "../../assets/img/agatha.jpeg";
+import fotothaline from "../../assets/img/fotothaline.jpeg";
+import fotopedroj from "../../assets/img/fotopedro.jpeg";
+import fotoarthur from "../../assets/img/arthurTavares.jpeg";
+import fotoemerson from "../../assets/img/emerson.jpeg";
+import fotomavi from "../../assets/img/mavi.jpeg";
+
 
 // CSS
 import "../css/equipe.css";
@@ -25,14 +32,14 @@ export function Equipe() {
     ceos: [
       {
         id: 1,
-        nome: "Pedro Manoel",
+        nome: "Prof M.Sc Pedro Manoel",
         funcao: "CEO",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 2,
-        nome: "",
+        nome: "Washington Fábio de S. Ribeiro",
         funcao: "CEO",
         foto: fotoPedro,
         cor: cores.ciano,
@@ -41,122 +48,122 @@ export function Equipe() {
     coFundadora: [
       {
         id: 3,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
-        foto: fotoPedro,
+        nome: "Ágatha Ariell",
+        funcao: "Co-Fundadora",
+        foto: fotoagatha,
         cor: cores.roxo,
       },
     ],
     desenvolvedores: [
       {
         id: 4,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Gabriel Haddad Soares Brandão",
+        funcao: "Desenvolvedor backend",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 5,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
-        foto: fotoPedro,
+        nome: "Pedro Júlio Borges Barreto",
+        funcao: "Desenvolvedor fullstack e Docker",
+        foto: fotopedroj,
         cor: cores.ciano,
       },
       {
         id: 6,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Julio César Soares de Lima",
+        funcao: "Desenvolvedor backend ",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 7,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Pablo Carvalho Silva",
+        funcao: "Administrador de DBA",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 8,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
-        foto: fotoPedro,
+        nome: "Thaline Thais Teles da Silva",
+        funcao: "Desenvolvedora frontend",
+        foto: fotothaline,
         cor: cores.roxo,
       },
       {
         id: 9,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
-        foto: fotoPedro,
+        nome: "Maria Vitória Soares da Silva",
+        funcao: "Documentação",
+        foto: fotomavi,
         cor: cores.roxo,
       },
       {
         id: 10,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Gidelmar Sousa Silva Júnior",
+        funcao: "Desenvolvedor frontend",
         foto: fotoPedro,
         cor: cores.roxo,
       },
       {
         id: 11,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Thawan Campos",
+        funcao: "DevOps e infraestrutura",
         foto: fotoPedro,
         cor: cores.roxo,
       },
       {
         id: 12,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Rhawan Henrique de Jesus Moura",
+        funcao: "Desenvolvedor frontend",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 13,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Geovanne Formiga Dantas Junior",
+        funcao: "Designer e Artista",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 14,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Thyago Rafael de Carvalho",
+        funcao: "Desenvolvedor backend",
         foto: fotoPedro,
         cor: cores.ciano,
       },
       {
         id: 15,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
-        foto: fotoPedro,
+        nome: "Arthur Tavares Mendonça",
+        funcao: "Desenvolvedor backend",
+        foto: fotoarthur,
         cor: cores.ciano,
       },
       {
         id: 16,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Kimberly Campos de Faria Cruz",
+        funcao: "Desenvolvedora frontend",
         foto: fotoPedro,
         cor: cores.roxo,
       },
       {
         id: 17,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Diogo Lopes Gomes",
+        funcao: "Administrador de DBA",
         foto: fotoPedro,
         cor: cores.roxo,
       },
       {
         id: 18,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
-        foto: fotoPedro,
+        nome: "Emerson Gonçalves Grangeiro",
+        funcao: "DevOps e Desenvolvedor Backend",
+        foto: fotoemerson,
         cor: cores.roxo,
       },
       {
         id: 19,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Lucas Henrique Gonçalves Souto",
+        funcao: "Desenvolvedor backend",
         foto: fotoPedro,
         cor: cores.roxo,
       },
@@ -164,8 +171,8 @@ export function Equipe() {
     exColaboradores: [
       {
         id: 20,
-        nome: "Pedro Manoel",
-        funcao: "CEO",
+        nome: "Felipe Eduardo de Souza Araújo",
+        funcao: "Analista de Testes",
         foto: fotoPedro,
         cor: cores.ciano,
       },
