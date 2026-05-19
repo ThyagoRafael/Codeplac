@@ -25,41 +25,37 @@ public class AuthController {
 
   @Autowired
   private AuthService authService;
-
   @Autowired
   private PasswordResetService passwordResetService;
 
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
     try {
-
-      // VALIDAÇÃO
-      if (loginRequest.getCpf() == null || loginRequest.getCpf().isBlank()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "CPF não enviado!"));
+      if (loginRequest.getCpf() == null || loginRequest.getPassword() == null) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Dados incompletos!"));
       }
 
-      if (loginRequest.getPassword() == null || loginRequest.getPassword().isBlank()) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("message", "Senha não enviada!"));
-      }
-
-      // AUTENTICAÇÃO
+      // Autentica no Service
       Map<String, String> userData = authService.authenticate(loginRequest.getCpf(), loginRequest.getPassword());
 
-      String token = userData.get("token") != null ? userData.get("token") : "";
-      String role = userData.get("tipoUsuario") != null ? userData.get("tipoUsuario") : "PARTICIPANT";
+      // Validação de Segurança: Checa se o usuário logado tem o cargo solicitado
+      String tipoReal = userData.get("tipoUsuario");
+      String tipoSolicitado = loginRequest.getTipo(); // Certifique-se que o DTO LoginRequest tenha o campo 'tipo'
 
-      LoginResponse response = new LoginResponse(loginRequest.getCpf(), token, role);
-      return ResponseEntity.ok(response);
+      if ("ADMIN".equals(tipoSolicitado) && !"ADMIN".equals(tipoReal)) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            .body(Map.of("message", "Acesso negado: Você não é administrador!"));
+      }
+
+      return ResponseEntity.ok(new LoginResponse(
+          loginRequest.getCpf(),
+          userData.get("token"),
+          tipoReal));
 
     } catch (Excecao e) {
-      // Retorna erro de senha ou CPF não encontrado direto pro front
       return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", e.getMessage()));
-
     } catch (Exception e) {
-      // DEDO-DURO: Captura a falha do banco de dados e joga na cara do Frontend!
-      String causa = e.getCause() != null ? e.getCause().toString() : "Nenhuma causa detectada";
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-          .body(Map.of("message", "🚨 ERRO FATAL: " + e.getMessage() + " | CAUSA: " + causa));
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("message", "Erro fatal no servidor."));
     }
   }
 
