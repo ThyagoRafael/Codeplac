@@ -15,7 +15,8 @@ import fotopedroj from "../../assets/img/fotopedro.jpeg";
 import fotoarthur from "../../assets/img/arthurTavares.jpeg";
 import fotoemerson from "../../assets/img/emerson.jpeg";
 import fotomavi from "../../assets/img/mavi.jpeg";
-
+import fotogiovanna from "../../assets/img/giovannafoto.jpeg";
+import fotocoordenador from "../../assets/img/coordenador.jpeg";
 
 // CSS
 import "../css/equipe.css";
@@ -41,7 +42,7 @@ export function Equipe() {
         id: 2,
         nome: "Washington Fábio de S. Ribeiro",
         funcao: "CEO",
-        foto: fotoPedro,
+        foto: fotocoordenador,
         cor: cores.ciano,
       },
     ],
@@ -167,13 +168,20 @@ export function Equipe() {
         foto: fotoPedro,
         cor: cores.roxo,
       },
-    ],
-    exColaboradores: [
       {
         id: 20,
         nome: "Felipe Eduardo de Souza Araújo",
-        funcao: "Analista de Testes",
+        funcao: "Desenvolvedor backend",
         foto: fotoPedro,
+        cor: cores.roxo,
+      },
+    ],
+    exColaboradores: [
+      {
+        id: 21,
+        nome: "Giovanna Rocha",
+        funcao: "Co-Fundadora",
+        foto: fotogiovanna,
         cor: cores.ciano,
       },
     ],
