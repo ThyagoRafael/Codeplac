@@ -20,6 +20,10 @@ import fotocoordenador from "../../assets/img/coordenador.jpeg";
 import fotorhawan from "../../assets/img/rhawanfoto.jpeg";
 import fotopablo from "../../assets/img/fotopablo.jpg";
 import fotothiago from "../../assets/img/fotothiago.jpg";
+import fotojulio from "../../assets/img/fotojulio.png";
+import fotodiogo from "../../assets/img/diogofoto.png";
+import fotogabriel from "../../assets/img/gabrielfoto.png";
+import fotokimberly from "../../assets/img/kimberlyfoto.png";
 
 // CSS
 import "../css/equipe.css";
@@ -63,7 +67,7 @@ export function Equipe() {
         id: 4,
         nome: "Gabriel Haddad Soares Brandão",
         funcao: "Desenvolvedor backend",
-        foto: fotoPedro,
+        foto: fotogabriel,
         cor: cores.ciano,
       },
       {
@@ -77,7 +81,7 @@ export function Equipe() {
         id: 6,
         nome: "Julio César Soares de Lima",
         funcao: "Desenvolvedor backend ",
-        foto: fotoPedro,
+        foto: fotojulio,
         cor: cores.ciano,
       },
       {
@@ -147,14 +151,14 @@ export function Equipe() {
         id: 16,
         nome: "Kimberly Campos de Faria Cruz",
         funcao: "Desenvolvedora frontend",
-        foto: fotoPedro,
+        foto: fotokimberly,
         cor: cores.roxo,
       },
       {
         id: 17,
         nome: "Diogo Lopes Gomes",
         funcao: "Administrador de DBA",
-        foto: fotoPedro,
+        foto: fotodiogo,
         cor: cores.roxo,
       },
       {
