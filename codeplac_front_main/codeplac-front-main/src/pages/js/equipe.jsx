@@ -24,6 +24,7 @@ import fotojulio from "../../assets/img/fotojulio.png";
 import fotodiogo from "../../assets/img/diogofoto.png";
 import fotogabriel from "../../assets/img/gabrielfoto.png";
 import fotokimberly from "../../assets/img/kimberlyfoto.png";
+import fotogidelmar from "../../assets/img/gidelmarfoto.jpeg";
 
 // CSS
 import "../css/equipe.css";
@@ -109,7 +110,7 @@ export function Equipe() {
         id: 10,
         nome: "Gidelmar Sousa Silva Júnior",
         funcao: "Desenvolvedor frontend",
-        foto: fotoPedro,
+        foto: fotogidelmar,
         cor: cores.roxo,
       },
       {

@@ -4,6 +4,7 @@
   background-color: #000b17;
   font-family: "Sora", sans-serif;
   color: #ffffff;
+  
 }
 
 /* CONTAINER PRINCIPAL */
@@ -173,6 +174,12 @@
 }
 
 /* RESPONSIVIDADE */
+@media (max-width: 600px) {
+  .eventos-circles-bg {
+    display: none; /* Esconde as bolinhas no mobile */
+  }
+}
+
 @media (max-width: 1024px) {
   .events-highlight {
     grid-template-columns: 1fr;
