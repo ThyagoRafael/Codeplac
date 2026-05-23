@@ -25,6 +25,8 @@ import fotodiogo from "../../assets/img/diogofoto.png";
 import fotogabriel from "../../assets/img/gabrielfoto.png";
 import fotokimberly from "../../assets/img/kimberlyfoto.png";
 import fotogidelmar from "../../assets/img/gidelmarfoto.jpeg";
+import fotothawan from "../../assets/img/fotothawan.jpeg";
+import mcsapao from "../../assets/img/mcsapao.png";
 
 // CSS
 import "../css/equipe.css";
@@ -117,7 +119,7 @@ export function Equipe() {
         id: 11,
         nome: "Thawan Campos",
         funcao: "DevOps e infraestrutura",
-        foto: fotoPedro,
+        foto: fotothawan,
         cor: cores.roxo,
       },
       {
@@ -131,7 +133,7 @@ export function Equipe() {
         id: 13,
         nome: "Geovanne Formiga Dantas Junior",
         funcao: "Designer e Artista",
-        foto: fotoPedro,
+        foto: mcsapao,
         cor: cores.ciano,
       },
       {
@@ -173,14 +175,14 @@ export function Equipe() {
         id: 19,
         nome: "Lucas Henrique Gonçalves Souto",
         funcao: "Desenvolvedor backend",
-        foto: fotoPedro,
+        foto: mcsapao,
         cor: cores.roxo,
       },
       {
         id: 20,
         nome: "Felipe Eduardo de Souza Araújo",
         funcao: "Desenvolvedor backend",
-        foto: fotoPedro,
+        foto: mcsapao,
         cor: cores.roxo,
       },
     ],
