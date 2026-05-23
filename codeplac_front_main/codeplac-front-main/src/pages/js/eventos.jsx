@@ -84,12 +84,10 @@ export default function Eventos() {
           </div>
         </section>
 
-        <section className="events">
-          {/* Título adicionado abaixo do cronograma */}
-          <h2 className="section-title">
-            Inscrições abertas - Clique nos cards
-          </h2>
+        {/* Título Chamativo Centralizado */}
+        <h2 className="section-title">Inscrições abertas - Clique nos cards</h2>
 
+        <section className="events">
           {Object.entries(groupedEvents).map(([day, dayEvents]) => (
             <section key={day} className="events-day">
               <h2 className="event-day">{formatDate(day)}</h2>
