@@ -185,41 +185,33 @@
   z-index: 1000;
 }
 .modal {
-  padding: 24px;
+  padding: 32px;
   border-radius: 20px;
   background: #0e0c15;
   width: 90%;
   max-width: 420px;
 }
 
-/* Estilização do título chamativo */
+/* Título de Inscrições */
 .section-title {
   text-align: center;
-  font-size: 2rem;
-  color: #ffffff; /* Ajuste conforme a cor de fundo do seu site */
-  background: linear-gradient(90deg, #6c63ff, #00d2ff); /* Gradiente vibrante */
-  padding: 15px 20px;
+  font-size: 1.6rem; /* Ajustado para não ficar grande demais */
+  color: #ffffff;
+  background: linear-gradient(90deg, #6c63ff, #00d2ff);
+  padding: 12px 20px;
   border-radius: 50px;
-  margin: 50px auto;
-  max-width: 80%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+  /* Ajuste crucial para "colar" no cronograma acima */
+  margin: 2px auto 40px auto;
+
+  max-width: 70%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
-/* Opcional: Adiciona um leve pulso para chamar atenção */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.section-title {
-  animation: pulse 3s infinite;
+.section-title:hover {
+  transform: scale(1.02);
 }
