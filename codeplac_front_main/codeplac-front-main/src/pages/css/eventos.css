@@ -4,13 +4,17 @@
 
   background-color: #000b17;
 
-  font-family: "Sora", sans-serif;
-
   color: #ffffff;
 
   overflow-x: hidden;
 
   position: relative;
+
+  font-family: "Sora", sans-serif;
+}
+
+.events-page * {
+  font-family: "Sora", sans-serif;
 }
 
 /* ===== CONTAINER ===== */
@@ -146,9 +150,11 @@
 .section-title {
   text-align: center;
 
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 
-  font-weight: 800;
+  font-weight: 700;
+
+  font-family: "Sora", sans-serif;
 
   color: #ffffff;
 
@@ -182,17 +188,21 @@
 }
 
 .event-day {
-  font-size: 30px;
+  font-size: 34px;
 
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 
   color: #ffffff;
 
-  font-weight: 800;
+  font-weight: 700;
 
   text-align: center;
 
   letter-spacing: 1px;
+
+  font-family: "Sora", sans-serif;
+
+  text-transform: none;
 }
 .events-grid {
   display: grid;
@@ -282,4 +292,17 @@
   .section-title {
     font-size: 1rem;
   }
+}
+
+/* PADRONIZAÇÃO DE TIPOGRAFIA */
+
+.events-hero h1,
+.events-hero p,
+.event-info h2,
+.schedule-text,
+.section-title,
+.event-day,
+.events-grid,
+.events-grid * {
+  font-family: "Sora", sans-serif;
 }
