@@ -9,25 +9,33 @@ export default function EventCard({
   date,
   time,
   location,
-  tipo, // Propriedade nova
+  tipo,
 }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
     <>
+      {/* CARD */}
       <div className={`event-card ${variant}`} onClick={() => setOpen(true)}>
-        <h4 className="event-title">{title}</h4>
-        <p className="event-subtitle">{subtitle}</p>
+        <h4 className="event-title">{title || "EVENTO SEM TÍTULO"}</h4>
+
+        <p className="event-subtitle">{subtitle || "Sem descrição"}</p>
+
         <div className="event-divider" />
+
         <div className="event-meta">
           <span>
-            {date} | {time}
+            {date || "Data indefinida"} | {time || "--:--"}
           </span>
-          <span className="event-location">LOCAL: {location}</span>
+
+          <span className="event-location">
+            LOCAL: {location || "Não informado"}
+          </span>
         </div>
       </div>
 
+      {/* MODAL */}
       {open && (
         <div className="event-modal-overlay" onClick={() => setOpen(false)}>
           <div
@@ -35,32 +43,37 @@ export default function EventCard({
             onClick={(e) => e.stopPropagation()}
           >
             <h3>{title}</h3>
+
             <p className="modal-subtitle">{subtitle}</p>
+
             <div className="modal-info">
               <span>
                 <strong>Data:</strong> {date}
               </span>
+
               <span>
                 <strong>Horário:</strong> {time}
               </span>
+
               <span>
                 <strong>Local:</strong> {location}
               </span>
             </div>
 
-            {/* BOTÃO APARECE SE FOR COMPETICAO */}
             {tipo === "COMPETICAO" && (
               <button
                 className="btn-inscricao-modal"
                 onClick={() =>
-                  navigate("/inscricao", { state: { nomeEvento: title } })
+                  navigate("/inscricao", {
+                    state: { nomeEvento: title },
+                  })
                 }
               >
                 INSCREVER EQUIPE
               </button>
             )}
 
-            <button onClick={() => setOpen(false)}>fechar</button>
+            <button onClick={() => setOpen(false)}>FECHAR</button>
           </div>
         </div>
       )}

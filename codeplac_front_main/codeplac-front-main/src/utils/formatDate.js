@@ -1,13 +1,38 @@
-import { capitalize } from "./capitalize"
+import { capitalize } from "./capitalize";
 
-export function formatDate(date) {
-    const [dia, mes, ano] = date.split("-")
+export function formatDate(dateString) {
+  const [ano, mes, dia] = dateString.split("-");
 
-    const result = new Date(dia, mes - 1, ano).toLocaleDateString("pt-BR", {
-        weekday: "long",
-        day: "2-digit",
-        month: "long",
-    })
+  const date = new Date(ano, mes - 1, dia);
 
-    return capitalize(result)
+  const weekdays = [
+    "Domingo",
+    "Segunda",
+    "Terça",
+    "Quarta",
+    "Quinta",
+    "Sexta",
+    "Sábado",
+  ];
+
+  const months = [
+    "janeiro",
+    "fevereiro",
+    "março",
+    "abril",
+    "maio",
+    "junho",
+    "julho",
+    "agosto",
+    "setembro",
+    "outubro",
+    "novembro",
+    "dezembro",
+  ];
+
+  const weekday = weekdays[date.getDay()];
+  const dayNumber = date.getDate();
+  const month = months[date.getMonth()];
+
+  return capitalize(`${weekday} - ${dayNumber} de ${month}`);
 }

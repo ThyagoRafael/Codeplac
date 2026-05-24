@@ -24,8 +24,12 @@ import imgCM2 from "../../assets/img/fotoequipe20242.png";
 import imgCM3 from "../../assets/img/fotocompeticao1.jpeg";
 import imgCM4 from "../../assets/img/fotocompeticao2.jpeg";
 import imgCM5 from "../../assets/img/fotocompeticao3.jpeg";
-
-
+import imgP4 from "../../assets/img/akyebananapalestra.png";
+import imgP5 from "../../assets/img/palestranoturno.jpeg";
+import imgCM6 from "../../assets/img/bannersromulo.jpeg";
+import imgP6 from "../../assets/img/fotopalestra3.jpeg";
+import imgP7 from "../../assets/img/fotopalestra4.jpeg";
+import imgCM7 from "../../assets/img/codeplaceventogeral.jpeg";
 
 export default function Galeria() {
   const [modalContext, setModalContext] = useState({
@@ -35,8 +39,8 @@ export default function Galeria() {
   });
 
   // 2. DEFINA A LISTA DE IMAGENS AQUI
-  const fotosCompeticao = [imgCM1, imgCM2, imgCM3, imgCM4, imgCM5];
-  const fotosPalestras = [imgC1, imgC2, imgP1, imgP2, imgP3];
+  const fotosCompeticao = [imgCM1, imgCM2, imgCM3, imgCM4, imgCM5, imgCM6, imgCM7];
+  const fotosPalestras = [imgC1, imgC2, imgP1, imgP2, imgP3, imgP4, imgP5, imgP6, imgP7];
 
   const openModal = (list, index) => {
     setModalContext({ isOpen: true, list, startIndex: index });

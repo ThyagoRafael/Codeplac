@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { formatDate } from "../../utils/formatDate";
 import "../css/eventos.css";
+
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
 import EventCard from "../../Components/jsx/EventCard";
 import Circle from "../../Components/jsx/circle";
+
 import eventoBanner from "../../assets/img/eventobanner.png";
+
 import { getAllEvents } from "../../services/eventService";
 
 export default function Eventos() {
@@ -13,40 +16,61 @@ export default function Eventos() {
 
   useEffect(() => {
     const loadEvents = async () => {
-      const data = await getAllEvents();
-      setEvents(data);
+      try {
+        const data = await getAllEvents();
+
+        console.log("EVENTOS:", data);
+
+        setEvents(data);
+      } catch (error) {
+        console.error("Erro ao carregar eventos:", error);
+      }
     };
+
     loadEvents();
   }, []);
 
   const groupedEvents = events.reduce((acc, event) => {
-    if (!acc[event.dataEvento]) acc[event.dataEvento] = [];
+    if (!acc[event.dataEvento]) {
+      acc[event.dataEvento] = [];
+    }
+
     acc[event.dataEvento].push(event);
+
     return acc;
   }, {});
 
   return (
     <div className="events-page">
       <Header />
+
+      {/* BACKGROUND */}
       <div className="eventos-circles-bg">
         <Circle size={400} variant="purple" className="eventos-circle-left" />
+
         <Circle size={400} variant="cyan" className="eventos-circle-right" />
       </div>
 
+      {/* CONTAINER */}
       <main className="events-container">
+        {/* HERO */}
         <section className="events-hero">
           <h1>Eventos</h1>
+
           <p>
-            Descubra nossos eventos de programação. Fique ligado na semana
-            acadêmica!
+            Descubra nossos eventos de programação.
+            <br />
+            Fique ligado na semana acadêmica!
           </p>
         </section>
 
+        {/* CRONOGRAMA */}
         <section className="event-schedule">
           <div className="event-schedule-container">
             <div className="event-banner">
-              <img src={eventoBanner} alt="Banner" />
+              <img src={eventoBanner} alt="Banner do Evento" />
             </div>
+
             <div className="event-info">
               <h2>
                 CRONOGRAMA DO <span>EVENTO</span>
@@ -58,22 +82,26 @@ export default function Eventos() {
                   (aberta a todos os cursos). Todos os alunos de T.I. devem se
                   dirigir aos Laboratórios 7, 9 e 12 (4º andar) antes do início.
                 </p>
+
                 <p>
                   <strong>26 DE MAIO:</strong> Competição Codeplac (Laboratórios
                   2/3, 4 e 5) e Hackathon – Formação de Equipes (Auditório
                   Vermelho).
                 </p>
+
                 <p>
                   <strong>27 DE MAIO:</strong> Apresentação de Banners; Palestra
                   "Guardião Cibernético" com Geovanne; Ciclo SEBRAE (Design
                   Thinking e IA); Palestra Scrum Além do Básico: Agilidade,
-                  Carreira e Mercado, e Painel de Empregabilidade em Tecnologia.
+                  Carreira e Mercado; Painel de Empregabilidade em Tecnologia.
                 </p>
+
                 <p>
                   <strong>28 DE MAIO:</strong> Ciclo de palestras SEBRAE no
                   Auditório Vermelho. Foco em inovação, tecnologia e
                   desenvolvimento profissional.
                 </p>
+
                 <p>
                   <strong>29 DE MAIO:</strong> Apresentação de Banners,
                   encerramento do Hackathon, palestra SEBRAE sobre "Pitch de
@@ -84,19 +112,21 @@ export default function Eventos() {
           </div>
         </section>
 
-        {/* Título Chamativo Centralizado */}
+        {/* TÍTULO */}
         <h2 className="section-title">Inscrições abertas - Clique nos cards</h2>
 
+        {/* EVENTOS */}
         <section className="events">
           {Object.entries(groupedEvents).map(([day, dayEvents]) => (
             <section key={day} className="events-day">
               <h2 className="event-day">{formatDate(day)}</h2>
+
               <div className="events-grid">
                 {dayEvents.map((event) => (
                   <EventCard
                     key={event.idEvento}
-                    variant={"cyan"}
-                    title={event.nomeEvento}
+                    variant="cyan"
+                    title={event.nome}
                     subtitle={event.descricao}
                     date={event.dataEvento}
                     time={event.horario}
@@ -109,6 +139,7 @@ export default function Eventos() {
           ))}
         </section>
       </main>
+
       <Footer />
     </div>
   );
