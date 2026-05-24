@@ -1,7 +1,7 @@
 import React from "react";
-import "../css/contato.css"; // Use o arquivo de contato específico
+import "../css/contato.css"; // Certifique-se de adicionar o CSS abaixo neste arquivo
 
-import { Mail, User, MapPin } from "lucide-react"; // Exemplo com Lucide
+import { Mail, User, MapPin } from "lucide-react";
 
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
@@ -12,10 +12,19 @@ import enfeiteImg from "../../assets/img/enfeite.png";
 function Contato() {
   return (
     <div className="PageWrapper">
+      {/* Adicione este estilo ao seu arquivo ../css/contato.css:
+        
+        @media (max-width: 768px) {
+          .contato-circle {
+            display: none !important;
+          }
+        }
+      */}
       <div className="App">
         <Header />
 
         <div className="contato-page-wrapper">
+          {/* Esta div será ocultada automaticamente em telas menores que 768px */}
           <div className="contato-circle">
             <Circle size={420} variant="cyan" className="circle-1" />
             <Circle size={420} variant="purple" className="circle-2" />
@@ -114,7 +123,6 @@ function Contato() {
             {/* SEÇÃO DE CARTÕES DE CONTATO */}
             <h2 className="info-contato-title">INFORMAÇÕES DE CONTATO</h2>
             <section className="cards-contato-container">
-              {/* Card Email */}
               <div className="contato-card card-purple">
                 <div className="card-icon icon-purple">
                   <Mail size={20} color="#a855f7" />
@@ -123,7 +131,6 @@ function Contato() {
                 <p>codeplacgroup@gmail.com</p>
               </div>
 
-              {/* Card CEO */}
               <div className="contato-card card-cyan">
                 <div className="card-icon icon-cyan">
                   <User size={20} color="#00eaff" />
@@ -132,7 +139,6 @@ function Contato() {
                 <p>Pro. M.Sc. Pedro Manoel Rosa</p>
               </div>
 
-              {/* Card Endereço */}
               <div className="contato-card card-purple">
                 <div className="card-icon icon-purple">
                   <MapPin size={20} color="#a855f7" />
@@ -154,7 +160,7 @@ function Contato() {
                 <h2 className="mapa-title">FACULDADE UNICEPLAC</h2>
                 <div className="mapa-wrapper-frame">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3834.725890989083!2d-48.05355452395195!3d-16.001407584666572!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a2a9b5b3167a9%3A0xadaac70ed76e5c07!2sCentro%20Universit%C3%A1rio%20do%20Planalto%20Central%20Apparecido%20dos%20Santos!5e0!3m2!1spt-BR!2sbr!4v1709420000000!5m2!1spt-BR!2sbr"
+                    src="https://www.google.com/maps/embed?pb=..."
                     width="100%"
                     height="450"
                     style={{ border: 0 }}

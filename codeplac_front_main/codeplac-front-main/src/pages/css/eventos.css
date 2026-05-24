@@ -4,18 +4,18 @@
   background-color: #000b17;
   font-family: "Sora", sans-serif;
   color: #ffffff;
-  overflow-x: hidden; /* ESSENCIAL: Evita que os círculos criem scroll horizontal */
+  overflow-x: hidden;
   position: relative;
 }
 
 /* CONTAINER PRINCIPAL */
 .events-container {
-  width: 90%; /* Melhor para mobile */
+  width: 90%;
   max-width: 900px;
   margin: 0 auto;
   padding: 100px 24px 80px;
   position: relative;
-  z-index: 2; /* Garante que o conteúdo fique sobre os círculos */
+  z-index: 2;
 }
 
 /* HERO */
@@ -41,7 +41,8 @@
   display: flex;
   gap: 32px;
   padding: 32px;
-  margin-bottom: 90px;
+  /* AJUSTE: Reduzi de 90px para 10px para colar no título */
+  margin-bottom: 10px;
   border-radius: 16px;
   background: rgba(14, 12, 21, 0.6);
   backdrop-filter: blur(10px);
@@ -79,7 +80,6 @@
   color: #b96cff;
 }
 
-/* TEXTO ADICIONADO DO CRONOGRAMA */
 .schedule-text {
   color: #d0d0e0;
   line-height: 1.6;
@@ -94,6 +94,26 @@
   color: #6ce3ff;
 }
 
+/* TÍTULO CHAMATIVO (Ajustado para ficar colado acima) */
+.section-title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #ffffff;
+  /* AJUSTE: margin-top: 0 para subir e margin-bottom: 20px para os cards */
+  margin: 0 auto 20px auto;
+  background: linear-gradient(90deg, #6c63ff, #00d2ff);
+  padding: 12px 25px;
+  border-radius: 12px;
+  width: fit-content;
+  max-width: 90%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 5;
+}
+
 /* GRID DE CARDS */
 .events-grid {
   display: grid;
@@ -101,7 +121,6 @@
   gap: 20px;
 }
 
-/* CARD INDIVIDUAL */
 .event-card {
   padding: 20px;
   border-radius: 16px;
@@ -175,7 +194,7 @@
   }
 }
 
-/* MODAL E OUTROS (Mantidos conforme seu código base) */
+/* MODAL */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -190,28 +209,4 @@
   background: #0e0c15;
   width: 90%;
   max-width: 420px;
-}
-
-/* Título de Inscrições */
-.section-title {
-  text-align: center;
-  font-size: 1.6rem; /* Ajustado para não ficar grande demais */
-  color: #ffffff;
-  background: linear-gradient(90deg, #6c63ff, #00d2ff);
-  padding: 12px 20px;
-  border-radius: 50px;
-
-  /* Ajuste crucial para "colar" no cronograma acima */
-  margin: 2px auto 40px auto;
-
-  max-width: 70%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.section-title:hover {
-  transform: scale(1.02);
 }

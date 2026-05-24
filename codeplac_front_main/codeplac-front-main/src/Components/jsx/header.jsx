@@ -31,13 +31,14 @@ export const Header = () => {
     <header className={`header-container ${scrolled ? "scrolled" : ""}`}>
       <div className="header-main-bar">
         <img src={logo} alt="Codeplac" className="logo-img" />
+
         <nav className="header-nav desktop-nav">
           <NavLink to="/" end>
             HOME
           </NavLink>
           <NavLink to="/ranking">RANKING</NavLink>
 
-          {/* DIV PAI QUE GERENCIA O HOVER DO DROPDOWN */}
+          {/* DROPDOWN DE ATIVIDADES */}
           <div
             className="nav-item-dropdown"
             onMouseEnter={() => setDropdownOpen(true)}
@@ -55,6 +56,9 @@ export const Header = () => {
                 <NavLink to="/galeria" onClick={() => setDropdownOpen(false)}>
                   GALERIA
                 </NavLink>
+                <NavLink to="/regras" onClick={() => setDropdownOpen(false)}>
+                  REGRAS
+                </NavLink>
               </div>
             )}
           </div>
@@ -62,6 +66,7 @@ export const Header = () => {
           <NavLink to="/equipe">EQUIPE</NavLink>
           <NavLink to="/contato">CONTATOS</NavLink>
         </nav>
+
         <div
           className="mobile-menu-btn"
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -82,10 +87,26 @@ export const Header = () => {
         )}
       </div>
 
+      {/* MENU MOBILE ATUALIZADO */}
       {mobileOpen && (
         <div className="mobile-menu">
           <NavLink to="/" onClick={() => setMobileOpen(false)}>
             HOME
+          </NavLink>
+          <NavLink to="/regras" onClick={() => setMobileOpen(false)}>
+            REGRAS
+          </NavLink>
+          <NavLink to="/eventos" onClick={() => setMobileOpen(false)}>
+            EVENTOS
+          </NavLink>
+          <NavLink to="/ranking" onClick={() => setMobileOpen(false)}>
+            RANKING
+          </NavLink>
+          <NavLink to="/equipe" onClick={() => setMobileOpen(false)}>
+            EQUIPE
+          </NavLink>
+          <NavLink to="/contato" onClick={() => setMobileOpen(false)}>
+            CONTATOS
           </NavLink>
           <NavLink
             to={isLoggedIn ? "/perfil" : "/login"}

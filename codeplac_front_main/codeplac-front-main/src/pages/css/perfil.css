@@ -242,3 +242,10 @@
   color: #fff;
   box-shadow: 0 0 10px rgba(255, 77, 77, 0.4);
 }
+
+@media (max-width: 768px) {
+  .profile-circle-top-l,
+  .profile-circle-mid-r {
+    display: none !important;
+  }
+}

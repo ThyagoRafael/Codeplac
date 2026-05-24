@@ -10,7 +10,7 @@ import Equipe from "./pages/js/equipe";
 import Historico from "./pages/js/historico";
 import Galeria from "./pages/js/galeria";
 import Contato from "./pages/js/contato";
-import Login from "./pages/js/login"
+import Login from "./pages/js/login";
 import Cadastro from "./pages/js/cadastro";
 import Senha from "./pages/js/senha";
 import ResetPassword from "./pages/js/ResetPassword";
@@ -25,45 +25,49 @@ import Termos from "./pages/js/termos";
 import Cookies from "./pages/js/cookies";
 import Juiz from "./pages/js/juiz";
 import Desafios from "./pages/js/desafios";
-
+import Regras from "./pages/js/regras";
 
 // css
 import "./App.css";
 
 function App() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                 <Route path="/" element={<Homepage />} />
-                <Route path="/sobre" element={<Sobre />} />
-                <Route path="/ranking" element={<Ranking />} />
-                <Route path="/eventos" element={<Eventos />} />
-                <Route path="/equipe" element={<Equipe />} />
-                <Route path="/historico" element={<Historico />} />
-                <Route path="/galeria" element={<Galeria />} />
-                <Route path="/contato" element={<Contato />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/cadastro" element={<Cadastro />} />
-                <Route path="/senha" element={<Senha />} />
-                <Route path="/reset-password" element={<ResetPassword />} />
-                <Route path="/inscricao" element={<Inscricao />} />
-                <Route path="/feedback" element={<Feedback />} /> 
-                <Route path="/recrutamento" element={<Recrutamento />} />
-                <Route path="/formulario" element={<Formulario />} />
-                <Route path="/perfil" element={<Perfil />} />
-                <Route path="/admin" element={
-                    <AdminRoute>
-                        <Admin />
-                    </AdminRoute>
-                } />
-                <Route path="/privacidade" element={<Privacidade />} />
-                <Route path="/termos" element={<Termos />} />
-                <Route path="/cookies" element={<Cookies />} />
-                <Route path="/juiz" element={<Juiz />} />
-                <Route path="/desafios" element={<Desafios />} />
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/sobre" element={<Sobre />} />
+        <Route path="/ranking" element={<Ranking />} />
+        <Route path="/eventos" element={<Eventos />} />
+        <Route path="/equipe" element={<Equipe />} />
+        <Route path="/historico" element={<Historico />} />
+        <Route path="/galeria" element={<Galeria />} />
+        <Route path="/contato" element={<Contato />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cadastro" element={<Cadastro />} />
+        <Route path="/senha" element={<Senha />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/inscricao" element={<Inscricao />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/recrutamento" element={<Recrutamento />} />
+        <Route path="/formulario" element={<Formulario />} />
+        <Route path="/regras" element={<Regras />} />
+        <Route path="/perfil" element={<Perfil />} />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
+          }
+        />
+        <Route path="/privacidade" element={<Privacidade />} />
+        <Route path="/termos" element={<Termos />} />
+        <Route path="/cookies" element={<Cookies />} />
+        <Route path="/juiz" element={<Juiz />} />
+        <Route path="/desafios" element={<Desafios />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default App;
