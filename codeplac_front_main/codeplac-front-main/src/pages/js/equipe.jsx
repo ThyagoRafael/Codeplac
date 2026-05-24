@@ -8,7 +8,7 @@ import EquipeCard from "../../Components/jsx/EquipeCard";
 import Circle from "../../Components/jsx/circle";
 
 // Assets
-import fotoPedro from "../../assets/img/profpedro.jpeg";
+import fotoprofessorpedro from "../../assets/img/professorpedro.png";
 import fotoagatha from "../../assets/img/agatha.jpeg";
 import fotothaline from "../../assets/img/fotothaline.jpeg";
 import fotopedroj from "../../assets/img/fotopedro.jpeg";
@@ -25,6 +25,7 @@ import fotodiogo from "../../assets/img/diogofoto.png";
 import fotogabriel from "../../assets/img/gabrielfoto.png";
 import fotokimberly from "../../assets/img/kimberlyfoto.png";
 import fotogidelmar from "../../assets/img/gidelmarfoto.jpeg";
+import fotofelipe from "../../assets/img/fotofelipeeduardo.png";
 import fotothawan from "../../assets/img/fotothawan.jpeg";
 import mcsapao from "../../assets/img/mcsapao.png";
 
@@ -45,7 +46,7 @@ export function Equipe() {
         id: 1,
         nome: "Prof M.Sc Pedro Manoel",
         funcao: "CEO",
-        foto: fotoPedro,
+        foto: fotoprofessorpedro,
         cor: cores.ciano,
       },
       {
@@ -182,7 +183,7 @@ export function Equipe() {
         id: 20,
         nome: "Felipe Eduardo de Souza Araújo",
         funcao: "Desenvolvedor backend",
-        foto: mcsapao,
+        foto: fotofelipe,
         cor: cores.roxo,
       },
     ],

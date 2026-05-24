@@ -4,7 +4,6 @@ import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 
-// Importes do Swiper para o modal
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -14,18 +13,30 @@ import Circle from "../../Components/jsx/circle";
 import GaleriaCarrosel from "../../Components/jsx/GaleriaCarrosel";
 
 import "../css/galeria.css";
-import imgReferencia from "../../assets/img/imagem10galeria.jpeg";
+
+import imgC1 from "../../assets/img/fotopalestra.png";
+import imgC2 from "../../assets/img/fotodopovofotopalestrante.png";
+import imgP1 from "../../assets/img/Auditoriocheio.png";
+import imgP2 from "../../assets/img/palestraNBDSAaskdASDkas.png";
+import imgP3 from "../../assets/img/fotoprofessorcompalestrante.png";
+import imgCM1 from "../../assets/img/fotoequipe2024.png";
+import imgCM2 from "../../assets/img/fotoequipe20242.png";
+import imgCM3 from "../../assets/img/fotocompeticao1.jpeg";
+import imgCM4 from "../../assets/img/fotocompeticao2.jpeg";
+import imgCM5 from "../../assets/img/fotocompeticao3.jpeg";
+
+
 
 export default function Galeria() {
-  // Estado agora controla a abertura, a lista de fotos e o índice inicial
   const [modalContext, setModalContext] = useState({
     isOpen: false,
     list: [],
     startIndex: 0,
   });
 
-  const fotosCompeticao = Array(6).fill(imgReferencia);
-  const fotosPalestras = Array(6).fill(imgReferencia);
+  // 2. DEFINA A LISTA DE IMAGENS AQUI
+  const fotosCompeticao = [imgCM1, imgCM2, imgCM3, imgCM4, imgCM5];
+  const fotosPalestras = [imgC1, imgC2, imgP1, imgP2, imgP3];
 
   const openModal = (list, index) => {
     setModalContext({ isOpen: true, list, startIndex: index });
@@ -48,21 +59,18 @@ export default function Galeria() {
           <h1 className="gal-title">Galeria</h1>
           <p className="gal-subtitle">
             DEIXE-SE INSPIRAR E REVIVA A MAGIA QUE TRAZ VIDA À NOSSA PLATAFORMA.
-            NAVEGUE PELA NOSSA GALERIA E SINTA O QUE TORNA NOSSOS EVENTOS
-            ESPECIAIS.
           </p>
         </section>
 
         <section className="gal-glass-box">
           <div className="gal-content">
-            <h2 className="gal-event-title">COMPETIÇÃO DE 2024/02</h2>
+            <h2 className="gal-event-title">CODEPLAC DE 2024 à 2026</h2>
 
             <GaleriaCarrosel
               carouselId="competicao"
               title="COMPETIÇÃO"
               imagens={fotosCompeticao}
               variant="cyan"
-              // Passamos a lista e o índice da imagem clicada
               onSelectImage={(img) =>
                 openModal(fotosCompeticao, fotosCompeticao.indexOf(img))
               }
@@ -83,7 +91,6 @@ export default function Galeria() {
 
       <Footer />
 
-      {/* MODAL COM NAVEGAÇÃO */}
       <AnimatePresence>
         {modalContext.isOpen && (
           <motion.div
@@ -93,7 +100,6 @@ export default function Galeria() {
             exit={{ opacity: 0 }}
             onClick={closeModal}
           >
-            {/* Novo Botão X - Fora do modal para um look mais limpo */}
             <button className="gal-modal-x" onClick={closeModal}>
               <X size={40} strokeWidth={1.5} />
             </button>
@@ -105,7 +111,6 @@ export default function Galeria() {
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Setas Customizadas */}
               <button className="gal-modal-arrow prev">
                 <ChevronLeft size={48} />
               </button>
