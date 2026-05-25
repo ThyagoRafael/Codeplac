@@ -107,7 +107,7 @@ export default function Desafios() {
             </div>
           </div>
 
-          {/* Card Desafio 3 - DIFÍCIL */}
+          {/* Card Desafio 3 - DIFÍCIL (REESCRITO PARA CABER NO CARD) */}
           <div className="desafio-card desafio-card-purple">
             <div className="desafio-header">
               <h3>QUESTÃO Nº3 - NÍVEL DIFÍCIL</h3>
@@ -115,21 +115,19 @@ export default function Desafios() {
             </div>
 
             <p className="desafio-texto">
-              Escreva um programa que manipule uma Matriz 3x3 (bidimensional). O
-              programa deve realizar cálculos específicos cruzando os dados da
-              matriz e imprimir os resultados em linhas separadas:
+              Escreva um programa que analise números primos dentro de um
+              intervalo fechado de A até B.
             </p>
             <ul className="desafio-lista">
               <li>
-                <strong>Cálculo A:</strong> Calcule a soma de todos os números
-                que compõem a Diagonal Principal da matriz e imprima o
-                resultado.
+                Encontre o <strong>MAIOR</strong> número primo no intervalo.
               </li>
               <li>
-                <strong>Cálculo B:</strong> Pegue o resultado da soma obtida no
-                Cálculo A e multiplique-o pelo elemento central da matriz (o
-                elemento no índice linha 1, coluna 1). Imprima este novo
-                resultado na linha seguinte.
+                Conte <strong>QUANTOS</strong> números primos existem ao todo
+                nesse intervalo.
+              </li>
+              <li>
+                Imprima o resultado da multiplicação entre esses dois valores.
               </li>
             </ul>
 
@@ -137,16 +135,13 @@ export default function Desafios() {
               <div className="desafio-code-box">
                 <h4>Considere as variáveis:</h4>
                 <pre>
-                  <code>
-                    int[][] matriz = &#123; &#123;1, 2, 3&#125;, &#123;4, 5,
-                    6&#125;, &#123;7, 8, 9&#125; &#125;;
-                  </code>
+                  <code>int A = 10; int B = 30;</code>
                 </pre>
               </div>
               <div className="desafio-code-box">
                 <h4>Saída exata esperada:</h4>
                 <pre>
-                  <code>15 75</code>
+                  <code>174</code>
                 </pre>
               </div>
             </div>
