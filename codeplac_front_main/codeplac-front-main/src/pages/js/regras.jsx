@@ -1,11 +1,38 @@
-import React from "react";
-import "../css/desafios.css"; // Usando o mesmo CSS
+import React, { useState, useEffect } from "react";
+import "../css/desafios.css";
 
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
 import Circle from "../../Components/jsx/circle";
 
 export default function Regras() {
+  const [liberado, setLiberado] = useState(false);
+  const [tempoRestante, setTempoRestante] = useState("");
+
+  useEffect(() => {
+    // Data alvo: 26 de maio de 2026, 00:00
+    const dataAlvo = new Date("2026-05-26T00:00:00");
+
+    const timer = setInterval(() => {
+      const agora = new Date();
+      const diferenca = dataAlvo - agora;
+
+      if (diferenca <= 0) {
+        setLiberado(true);
+        clearInterval(timer);
+      } else {
+        const horas = Math.floor(diferenca / (1000 * 60 * 60));
+        const minutos = Math.floor(
+          (diferenca % (1000 * 60 * 60)) / (1000 * 60),
+        );
+        const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+        setTempoRestante(`${horas}h ${minutos}m ${segundos}s`);
+      }
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="desafios-page-wrapper">
       <div className="desafio-circle">
@@ -35,9 +62,8 @@ export default function Regras() {
           <div className="desafio-content">
             <p>
               O tempo é um fator determinante. Vocês terão do início do evento
-              até às
-              <strong> 11:40</strong> para concluir e submeter todos os seus
-              códigos.
+              até às <strong>11:40</strong> para concluir e submeter todos os
+              seus códigos.
             </p>
             <p>
               As submissões devem ser realizadas exclusivamente através do campo
@@ -90,6 +116,17 @@ export default function Regras() {
             </p>
           </div>
         </section>
+
+        {/* Botão de Competição */}
+        <div className="btn-competicao-wrapper">
+          <a
+            href={liberado ? "https://www.codeplac.com.br/desafios" : "#"}
+            className={`btn-competicao ${liberado ? "btn-ativo" : "btn-desativado"}`}
+            onClick={(e) => !liberado && e.preventDefault()}
+          >
+            {liberado ? "Competição" : `Inicia em: ${tempoRestante}`}
+          </a>
+        </div>
       </main>
 
       <Footer />
