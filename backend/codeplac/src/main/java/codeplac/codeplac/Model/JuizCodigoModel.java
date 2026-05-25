@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 
-@Table(name = "assessment")
+@Table(name = "Assessment")
 public class JuizCodigoModel {
 
     @Id
