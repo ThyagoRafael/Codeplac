@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/juiz.css";
 
 import Header from "../../Components/jsx/header";
@@ -9,10 +9,78 @@ import enfeiteImg from "../../assets/img/enfeite.png";
 // Importando ícones para usar dentro das dicas (estilo home)
 import { Lightbulb, Terminal } from "lucide-react";
 
-import image1 from "../../assets/img/image.png";
 import image2 from "../../assets/img/img2.png";
 
 export default function Juiz() {
+  // ESTADOS DO FORMULÁRIO
+  const [nomeEquipe, setNomeEquipe] = useState("");
+  const [nomeLider, setNomeLider] = useState("");
+  const [linguagem, setLinguagem] = useState(""); // Mantido do design original
+  const [numeroCodigo, setNumeroCodigo] = useState(1);
+  const [codigoText, setCodigoText] = useState("");
+  const [fileName, setFileName] = useState("");
+
+  // LÓGICA DE LEITURA DO ARQUIVO
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setCodigoText(event.target.result);
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  // ENVIO DOS DADOS AO BACKEND
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!nomeEquipe || !nomeLider || !codigoText || !numeroCodigo) {
+      alert(
+        "Por favor, preencha todos os campos obrigatórios e anexe o arquivo.",
+      );
+      return;
+    }
+
+    const payload = {
+      nomeEquipe: nomeEquipe,
+      numeroCodigo: Number(numeroCodigo),
+      nomeLider: nomeLider,
+      codigo: codigoText,
+      fileName: fileName,
+      // O banco de dados exige esse hash. Mude depois para a lógica real da sua aplicação.
+      teamHash: "hash-padrao-provisorio",
+    };
+
+    try {
+      const response = await fetch("https://www.codeplac.com.br/juiz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert("Código enviado com sucesso!");
+        // Limpar form
+        setNomeEquipe("");
+        setNomeLider("");
+        setLinguagem("");
+        setNumeroCodigo(1);
+        setFileName("");
+        setCodigoText("");
+      } else {
+        alert("Erro ao enviar o código.");
+      }
+    } catch (error) {
+      console.error("Erro na requisição:", error);
+      alert("Erro de conexão com o servidor.");
+    }
+  };
+
   return (
     <div className="juiz-page-wrapper">
       <Header />
@@ -48,24 +116,20 @@ export default function Juiz() {
               </h2>
               <div className="juiz-card-text">
                 <p>
-                  {" "}
                   1. Cada código deve ser enviado separadamente! em caso de
-                  envio dos 2 códigos no mesmo campo, não irá valer.{" "}
+                  envio dos 2 códigos no mesmo campo, não irá valer.
                 </p>
                 <p>
-                  {" "}
                   2. Cada código irá valer até 1000 pontos, quanto mais próximo
                   e mais otimizado maior a pontuação porém cada erro ou parte
                   desnecessária no código irá descontar até 150 pontos totais
                 </p>
                 <p>
-                  {" "}
                   3. O uso de IA é proibido, no entanto se for visto pelos
                   monitores da competição os mesmos terão a equipe
                   desclassificada.
                 </p>
                 <p>
-                  {" "}
                   4. Não devem conter membros além dos da sua equipe para ajudar
                   no código caso contrário, serão desclassificados ou a pessoa
                   será retirada do laboratório.
@@ -75,114 +139,6 @@ export default function Juiz() {
           </div>
         </section>
 
-        {/* Questão 1 */}
-        <section className="juiz-question-section">
-          <div className="juiz-question-header">
-            <h2 className="juiz-question-level easy">
-              NÍVEL FÁCIL - QUESTÃO Nº1
-            </h2>
-            <p className="juiz-question-description">
-              {" "}
-              Escreva um programa (em C ou Java) que realize os seguintes
-              cálculos e imprima os resultados em duas linhas separadas, na
-              ordem especificada: Cálculo A: Calcule a soma de P, Q e R, e
-              subtraia 9 do resultado. Cálculo B: Calcule o resto da divisão
-              inteira da variável Q pela variável R.
-            </p>
-          </div>
-
-          <div className="juiz-question-layout">
-            {/* Lado Esquerdo: Imagem */}
-            <div className="juiz-side-container">
-              <img
-                src={image1}
-                alt="Icone Código"
-                className="juiz-floating-img"
-              />
-            </div>
-
-            {/* Centro: Cards */}
-            <div className="juiz-hints-container">
-              <div className="juiz-hint-card juiz-purple-theme">
-                <div className="juiz-card-header">
-                  <div className="juiz-icon-box">
-                    <Terminal size={20} color="#a855f7" />
-                  </div>
-                </div>
-                <h3>Dica:</h3>
-                <p>
-                  Considere as seguintes variáveis inteiras: <br /> int P = 10;{" "}
-                  <br /> int Q = 7; <br /> int R = 3;
-                </p>
-              </div>
-              <div className="juiz-hint-card juiz-cyan-theme">
-                <div className="juiz-card-header">
-                  <div className="juiz-icon-box">
-                    <Lightbulb size={20} color="#00eaff" />
-                  </div>
-                </div>
-                <h3>Saída:</h3>
-                <p>
-                  O código deve ter a seguinte saída exata: <br /> 11 <br /> 1
-                </p>
-              </div>
-            </div>
-
-            {/* Lado Direito: Vazio para manter o equilíbrio */}
-            <div className="juiz-side-container"></div>
-          </div>
-        </section>
-
-        {/* Questão 2 */}
-        <section className="juiz-question-section">
-          <div className="juiz-question-header">
-            <h2 className="juiz-question-level medium">
-              NÍVEL INTERMEDIÁRIO - QUESTÃO Nº2
-            </h2>
-            <p className="juiz-question-description">
-              Escreva um programa (em C ou Java) que realize as seguintes
-              operações e imprima os resultados em duas linhas separadas, na
-              ordem especificada: Cálculo A (Inteiro): Calcule a soma total de
-              todos os elementos do array numeros. Cálculo B (Ponto Flutuante):
-              Calcule a soma do primeiro elemento (índice 0) e do quarto
-              elemento (índice 3) do array. Em seguida, divida essa soma pelo
-              valor da variável divisor. O resultado deve ser um número real
-              (com casas decimais).
-            </p>
-          </div>
-
-          <div className="juiz-question-layout">
-            {/* Lado Esquerdo: Vazio */}
-            <div className="juiz-side-container"></div>
-
-            {/* Centro: Cards */}
-            <div className="juiz-hints-container">
-              <div className="juiz-hint-card juiz-purple-theme">
-                <div className="juiz-card-header">
-                  <div className="juiz-icon-box">
-                    <Terminal size={20} color="#a855f7" />
-                  </div>
-                </div>
-                <h3>Dica:</h3>
-                <p>
-                  Considere o array: <br /> int[] numeros = &#123;5, 2, 8, 4,
-                  2&#125;; <br /> double divisor = 6.0;
-                </p>
-              </div>
-              <div className="juiz-hint-card juiz-cyan-theme">
-                <div className="juiz-card-header">
-                  <div className="juiz-icon-box">
-                    <Lightbulb size={20} color="#00eaff" />
-                  </div>
-                </div>
-                <h3>Saída:</h3>
-                <p>
-                  O código deve ter a seguinte saída exata: <br /> 21 <br /> 1.5
-                </p>
-              </div>
-            </div>
-
-            {/* Lado Direito: Imagem */}
             <div className="juiz-side-container">
               <img
                 src={image2}
@@ -190,8 +146,6 @@ export default function Juiz() {
                 className="juiz-floating-img"
               />
             </div>
-          </div>
-        </section>
 
         {/* Formulário de Envio */}
         <section className="juiz-submission-section">
@@ -202,21 +156,52 @@ export default function Juiz() {
               <div className="juiz-arrow-right"></div>
             </div>
 
-            <form className="juiz-submission-form">
+            <form className="juiz-submission-form" onSubmit={handleSubmit}>
               <div className="juiz-input-row">
                 <div className="juiz-input-group">
                   <label>Nome da equipe</label>
-                  <input type="text" placeholder="" />
+                  <input
+                    type="text"
+                    required
+                    value={nomeEquipe}
+                    onChange={(e) => setNomeEquipe(e.target.value)}
+                  />
                 </div>
                 <div className="juiz-input-group">
                   <label>Nome do líder</label>
-                  <input type="text" placeholder="" />
+                  <input
+                    type="text"
+                    required
+                    value={nomeLider}
+                    onChange={(e) => setNomeLider(e.target.value)}
+                  />
                 </div>
               </div>
 
-              <div className="juiz-input-group full-width">
-                <label>Linguagem escolhida</label>
-                <input type="text" placeholder="" />
+              {/* Mantive o formato dos inputs agrupados iguais aos seus */}
+              <div className="juiz-input-row">
+                <div className="juiz-input-group full-width">
+                  <label>Linguagem escolhida</label>
+                  <input
+                    type="text"
+                    placeholder="Ex: Java, C++"
+                    value={linguagem}
+                    onChange={(e) => setLinguagem(e.target.value)}
+                  />
+                </div>
+
+                {/* Adicionado ao lado para capturar o numeroCodigo que o BD exige */}
+                <div className="juiz-input-group full-width">
+                  <label>Número do Código (1 a 4)</label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="4"
+                    required
+                    value={numeroCodigo}
+                    onChange={(e) => setNumeroCodigo(e.target.value)}
+                  />
+                </div>
               </div>
 
               <div className="juiz-form-divider-bottom">
@@ -225,8 +210,14 @@ export default function Juiz() {
 
               <div className="juiz-form-actions">
                 <label className="juiz-attach-btn">
-                  ANEXAR ARQUIVOS <span className="juiz-upload-icon">↑</span>
-                  <input type="file" hidden />
+                  {fileName ? `ANEXADO: ${fileName}` : "ANEXAR ARQUIVOS"}{" "}
+                  <span className="juiz-upload-icon">↑</span>
+                  <input
+                    type="file"
+                    hidden
+                    accept=".c,.cpp,.java,.txt"
+                    onChange={handleFileUpload}
+                  />
                 </label>
 
                 <button type="submit" className="juiz-submit-btn">
