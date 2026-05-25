@@ -8,10 +8,7 @@ import sapoImg from "../../assets/img/sapobone.png"; // Caminho da imagem do sap
 import Cookies from "js-cookie";
 
 function Login() {
-  const urlfinal = `${process.env.REACT_APP_URL}/auth/login`.replace(
-    /([^:]\/)\/+/g,
-    "$1",
-  );
+  const urlfinal = `${process.env.JUIZ_API}`.replace(/([^:]\/)\/+/g, "$1");
   const [formData, setFormData] = useState({
     cpf: "",
     password: "",

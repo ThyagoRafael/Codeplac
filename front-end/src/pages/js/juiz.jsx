@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/juiz.css";
 
 import Header from "../../Components/jsx/header";
@@ -13,6 +13,84 @@ import image1 from "../../assets/img/image.png";
 import image2 from "../../assets/img/img2.png";
 
 export default function Juiz() {
+  // Corrigido: variável de ambiente precisa ter prefixo REACT_APP_
+  const urlfinal = `${process.env.REACT_APP_JUIZ}`.replace(
+    /([^:]\/)\/+/g,
+    "$1",
+  );
+  const [formData, setFormData] = useState({
+    leader: "",
+    team: "",
+  });
+  const [archive, setarchive] = useState([]);
+  const [sended, setsended] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    setarchive(files);
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validação unificada
+    if (!formData.leader.trim() || !formData.team.trim()) {
+      setMessage("Preencha o nome do líder e da equipe.");
+      return;
+    }
+    if (archive.length === 0) {
+      setMessage("Selecione pelo menos um arquivo para enviar.");
+      return;
+    }
+
+    setsended(true);
+    setMessage("");
+    try {
+      const formDataObj = new FormData();
+      archive.forEach((file) => {
+        formDataObj.append("files", file);
+      });
+
+      const url = `${urlfinal}/?Name=${encodeURIComponent(formData.leader)}&Team=${encodeURIComponent(formData.team)}`;
+
+      const response = await fetch(url, {
+        method: "POST",
+        body: formDataObj,
+      });
+
+      // Verifica se a resposta é JSON
+      const contentType = response.headers.get("content-type");
+      let data;
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        // Se não for JSON, lê como texto (ex: mensagem de erro simples)
+        const text = await response.text();
+        throw new Error(text || "Erro desconhecido");
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || "Erro no envio");
+      }
+
+      setMessage(`✅ ${data.message || "Arquivos enviados com sucesso!"}`);
+      setarchive([]);
+      setFormData({ leader: "", team: "" });
+      // Limpa o input file
+      const fileInput = document.getElementById("file-input");
+      if (fileInput) fileInput.value = "";
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+      setMessage(`❌ Erro: ${error.message}`);
+    } finally {
+      setsended(false);
+    }
+  };
+
   return (
     <div className="juiz-page-wrapper">
       <Header />
@@ -48,24 +126,20 @@ export default function Juiz() {
               </h2>
               <div className="juiz-card-text">
                 <p>
-                  {" "}
                   1. Cada código deve ser enviado separadamente! em caso de
-                  envio dos 2 códigos no mesmo campo, não irá valer.{" "}
+                  envio dos 2 códigos no mesmo campo, não irá valer.
                 </p>
                 <p>
-                  {" "}
                   2. Cada código irá valer até 1000 pontos, quanto mais próximo
                   e mais otimizado maior a pontuação porém cada erro ou parte
                   desnecessária no código irá descontar até 150 pontos totais
                 </p>
                 <p>
-                  {" "}
                   3. O uso de IA é proibido, no entanto se for visto pelos
                   monitores da competição os mesmos terão a equipe
                   desclassificada.
                 </p>
                 <p>
-                  {" "}
                   4. Não devem conter membros além dos da sua equipe para ajudar
                   no código caso contrário, serão desclassificados ou a pessoa
                   será retirada do laboratório.
@@ -82,7 +156,6 @@ export default function Juiz() {
               NÍVEL FÁCIL - QUESTÃO Nº1
             </h2>
             <p className="juiz-question-description">
-              {" "}
               Escreva um programa (em C ou Java) que realize os seguintes
               cálculos e imprima os resultados em duas linhas separadas, na
               ordem especificada: Cálculo A: Calcule a soma de P, Q e R, e
@@ -92,7 +165,6 @@ export default function Juiz() {
           </div>
 
           <div className="juiz-question-layout">
-            {/* Lado Esquerdo: Imagem */}
             <div className="juiz-side-container">
               <img
                 src={image1}
@@ -101,7 +173,6 @@ export default function Juiz() {
               />
             </div>
 
-            {/* Centro: Cards */}
             <div className="juiz-hints-container">
               <div className="juiz-hint-card juiz-purple-theme">
                 <div className="juiz-card-header">
@@ -128,7 +199,6 @@ export default function Juiz() {
               </div>
             </div>
 
-            {/* Lado Direito: Vazio para manter o equilíbrio */}
             <div className="juiz-side-container"></div>
           </div>
         </section>
@@ -152,10 +222,8 @@ export default function Juiz() {
           </div>
 
           <div className="juiz-question-layout">
-            {/* Lado Esquerdo: Vazio */}
             <div className="juiz-side-container"></div>
 
-            {/* Centro: Cards */}
             <div className="juiz-hints-container">
               <div className="juiz-hint-card juiz-purple-theme">
                 <div className="juiz-card-header">
@@ -182,7 +250,6 @@ export default function Juiz() {
               </div>
             </div>
 
-            {/* Lado Direito: Imagem */}
             <div className="juiz-side-container">
               <img
                 src={image2}
@@ -202,21 +269,35 @@ export default function Juiz() {
               <div className="juiz-arrow-right"></div>
             </div>
 
-            <form className="juiz-submission-form">
+            <form className="juiz-submission-form" onSubmit={handleSubmit}>
               <div className="juiz-input-row">
                 <div className="juiz-input-group">
                   <label>Nome da equipe</label>
-                  <input type="text" placeholder="" />
+                  <input
+                    type="text"
+                    placeholder="Nome da equipe:"
+                    name="team"
+                    value={formData.team}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
                 <div className="juiz-input-group">
                   <label>Nome do líder</label>
-                  <input type="text" placeholder="" />
+                  <input
+                    type="text"
+                    placeholder="Nome da Lider:"
+                    name="leader"
+                    value={formData.leader}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
               </div>
 
               <div className="juiz-input-group full-width">
                 <label>Linguagem escolhida</label>
-                <input type="text" placeholder="" />
+                <input type="text" placeholder="Linguagem escolhida:" />
               </div>
 
               <div className="juiz-form-divider-bottom">
@@ -226,14 +307,26 @@ export default function Juiz() {
               <div className="juiz-form-actions">
                 <label className="juiz-attach-btn">
                   ANEXAR ARQUIVOS <span className="juiz-upload-icon">↑</span>
-                  <input type="file" hidden />
+                  <input
+                    id="file-input"
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                    hidden
+                  />
                 </label>
 
-                <button type="submit" className="juiz-submit-btn">
-                  ENVIAR
+                <button
+                  type="submit"
+                  className="juiz-submit-btn"
+                  disabled={sended}
+                >
+                  {sended ? "ENVIANDO..." : "ENVIAR"}
                 </button>
               </div>
             </form>
+
+            {message && console.log(message)}
           </div>
         </section>
       </main>
