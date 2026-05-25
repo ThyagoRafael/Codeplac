@@ -263,3 +263,211 @@
   color: #64748b;
   cursor: not-allowed;
 }
+
+/* ================= RESET E BASE ================= */
+.desafios-page-wrapper {
+  background-color: #000b17;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  color: #ffffff;
+  font-family: "Sora", sans-serif;
+}
+
+.desafios-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 20px 100px;
+  position: relative;
+  z-index: 10;
+  text-align: center;
+}
+
+/* ================= TÍTULOS E TEXTOS ================= */
+.desafios-main-title {
+  font-size: 42px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+
+.desafios-title-divider {
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #a855f7, #00eaff);
+  margin: 0 auto 40px;
+  border-radius: 2px;
+}
+
+.desafios-description {
+  font-size: 18px;
+  color: #cbd5e1;
+  max-width: 800px;
+  margin: 0 auto 60px;
+  line-height: 1.6;
+}
+
+/* ================= CARDS DE DESAFIOS ================= */
+.desafios-cards-container {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 80px;
+}
+
+.desafio-card {
+  background: rgba(10, 20, 35, 0.8);
+  border-radius: 20px;
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 350px;
+  text-align: left;
+  backdrop-filter: blur(10px);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.desafio-card:hover {
+  transform: translateY(-10px);
+}
+
+.desafio-card-purple {
+  border: 1px solid rgba(168, 85, 247, 0.4);
+}
+
+.desafio-card-purple:hover {
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
+}
+
+.desafio-card-cyan {
+  border: 1px solid rgba(0, 234, 255, 0.4);
+}
+
+.desafio-card-cyan:hover {
+  box-shadow: 0 0 25px rgba(0, 234, 255, 0.2);
+}
+
+.desafio-card h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+.desafio-card-purple h3 {
+  color: #a855f7;
+}
+
+.desafio-card-cyan h3 {
+  color: #00eaff;
+}
+
+.desafio-card p {
+  color: #94a3b8;
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 25px;
+  font-family: Arial, sans-serif;
+}
+
+.desafio-pontos {
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: inline-block;
+}
+
+/* ================= BOTÃO PARA O JUIZ ================= */
+.desafios-action-area {
+  margin-top: 20px;
+}
+
+.codeplac-btn-juiz {
+  background: transparent;
+  border: 2px solid #a855f7;
+  color: #ffffff;
+  padding: 18px 60px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  letter-spacing: 1px;
+}
+
+.codeplac-btn-juiz:hover {
+  background: #a855f7;
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.5);
+  transform: translateY(-3px);
+}
+
+/* ================= EFEITOS DE FUNDO ================= */
+.desafios-glows {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.desafios-glow-purple {
+  position: absolute;
+  top: 10%;
+  left: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.1) 0%,
+    transparent 70%
+  );
+}
+
+.desafios-glow-cyan {
+  position: absolute;
+  bottom: 10%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 234, 255, 0.08) 0%,
+    transparent 70%
+  );
+}
+
+.desafios-circles-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.desafios-circle-left {
+  position: absolute;
+  top: 15%;
+  left: -200px;
+}
+
+.desafios-circle-right {
+  position: absolute;
+  bottom: 15%;
+  right: -200px;
+}
+
+/* ================= RESPONSIVIDADE ================= */
+@media (max-width: 768px) {
+  .desafios-main-title {
+    font-size: 32px;
+  }
+
+  .codeplac-btn-juiz {
+    padding: 15px 40px;
+    width: 100%;
+  }
+}

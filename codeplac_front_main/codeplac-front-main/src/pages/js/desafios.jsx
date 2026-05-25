@@ -1,5 +1,6 @@
 import React from "react";
-import "../css/desafios.css";
+import { Link } from "react-router-dom"; // Importante para o botão funcionar
+import "../css/desafios.css"; // Arquivo de estilos que vamos ajustar abaixo
 
 import Header from "../../Components/jsx/header";
 import Footer from "../../Components/jsx/footer";
@@ -8,96 +9,62 @@ import Circle from "../../Components/jsx/circle";
 export default function Desafios() {
   return (
     <div className="desafios-page-wrapper">
-      <div className="desafio-circle">
-        <Circle size={420} variant="cyan" className="circle-1" />
-        <Circle size={420} variant="purple" className="circle-2" />
-      </div>
       <Header />
 
+      {/* Efeitos de fundo (Glows e Círculos) */}
       <div className="desafios-glows">
         <div className="desafios-glow-purple" />
         <div className="desafios-glow-cyan" />
       </div>
 
+      <div className="desafios-circles-bg">
+        <Circle size={450} variant="purple" className="desafios-circle-left" />
+        <Circle size={400} variant="cyan" className="desafios-circle-right" />
+      </div>
+
       <main className="desafios-container">
-        <section className="desafios-intro">
-          <h1 className="desafios-main-title">Painel de Desafios</h1>
-          <p className="desafios-description">
-            O Painel de Desafios é a nossa bússola para a excelência. Cada item
-            é um convite à inovação e à persistência, traçando a jornada que
-            eleva o nível de ambição e a performance de toda a organização.
-          </p>
-        </section>
+        <h1 className="desafios-main-title">DESAFIOS DA COMPETIÇÃO</h1>
 
-        {/* --- DESAFIO 1 (FÁCIL) --- */}
-        <section className="desafio-card">
-          <h2 className="desafio-header">
-            <span className="dots">● ● ●</span> DESAFIO 1: DETETIVE DE VOGAIS
-          </h2>
-          <div className="desafio-content">
-            <p>
-              O sistema de uma biblioteca escolar precisa organizar os livros
-              pelo número de vogais presentes no título.
-            </p>
-            <h3 className="sub-header-cyan">Sua Tarefa:</h3>
-            <p>
-              Receba uma palavra (string) e conte o total de vogais (a, e, i, o,
-              u), ignorando maiúsculas ou minúsculas.
-            </p>
-            <div className="exemplo-box">
-              <h4>Exemplo Prático:</h4>
-              <pre>Entrada: Programacao | Saída: 5</pre>
-            </div>
-          </div>
-        </section>
+        <div className="desafios-title-divider"></div>
 
-        {/* --- DESAFIO 2 (MÉDIA) --- */}
-        <section className="desafio-card">
-          <h2 className="desafio-header">
-            <span className="dots">● ● ●</span> DESAFIO 2: ÁRBITRO DE JOGO DA
-            VELHA
-          </h2>
-          <div className="desafio-content">
-            <p>
-              Uma plataforma de jogos online precisa de um componente que valide
-              se um jogador venceu uma partida de Jogo da Velha.
-            </p>
-            <h3 className="sub-header-cyan">Sua Tarefa:</h3>
-            <p>
-              Receba uma matriz 3x3 (0 para vazio, 1 para X, 2 para O) e
-              verifique se existe um vencedor em linha, coluna ou diagonal.
-            </p>
-            <div className="exemplo-box">
-              <pre>Saída: VENCEDOR: X</pre>
-            </div>
-          </div>
-        </section>
+        <p className="desafios-description">
+          Aqui você encontra a lista de problemas que sua equipe precisa
+          resolver. Leia atentamente as instruções de cada desafio, desenvolva
+          sua lógica (C, C++ ou Java) e, quando estiverem prontos, enviem o
+          código para o nosso Juiz Online para avaliação.
+        </p>
 
-        {/* --- DESAFIO 3 (MÉDIA) --- */}
-        <section className="desafio-card">
-          <h2 className="desafio-header">
-            <span className="dots">● ● ●</span> DESAFIO 3: O TRADUTOR BINÁRIO
-          </h2>
-          <div className="desafio-content">
+        {/* Lista de Desafios (Cards) */}
+        <div className="desafios-cards-container">
+          {/* Card Desafio 1 */}
+          <div className="desafio-card desafio-card-purple">
+            <h3>Desafio 1: Nível Fácil</h3>
             <p>
-              Sistemas embarcados frequentemente operam apenas em base binária.
-              Crie um conversor que transforme um decimal em binário.
+              Resolução de cálculos matemáticos básicos, lógica de variáveis e
+              operações com inteiros.
             </p>
-            <h3 className="sub-header-cyan">Sua Tarefa:</h3>
-            <p>
-              Converta um número decimal (base 10) para binário (base 2) usando
-              divisões sucessivas.
-            </p>
-            <div className="exemplo-box">
-              <pre>Entrada: 13 | Saída: 1101</pre>
-            </div>
-            <h3 className="sub-header-cyan">Dica:</h3>
-            <p className="dica-text">
-              Em C, use um vetor para armazenar os restos e imprima de trás para
-              frente. Em Java, use StringBuilder.
-            </p>
+            <div className="desafio-pontos">Valor: Até 1000 pontos</div>
           </div>
-        </section>
+
+          {/* Card Desafio 2 */}
+          <div className="desafio-card desafio-card-cyan">
+            <h3>Desafio 2: Nível Intermediário</h3>
+            <p>
+              Manipulação de posições em arrays, iteração e operações
+              matemáticas com ponto flutuante.
+            </p>
+            <div className="desafio-pontos">Valor: Até 1000 pontos</div>
+          </div>
+        </div>
+
+        {/* ========================================== */}
+        {/* BOTÃO PARA REDIRECIONAR PARA O JUIZ ONLINE */}
+        {/* ========================================== */}
+        <div className="desafios-action-area">
+          <Link to="/juiz" className="codeplac-btn-juiz">
+            IR PARA O JUIZ ONLINE
+          </Link>
+        </div>
       </main>
 
       <Footer />
