@@ -10,8 +10,8 @@ export default function Regras() {
   const [tempoRestante, setTempoRestante] = useState("");
 
   useEffect(() => {
-    // Data alvo: 26 de maio de 2026, 00:00
-    const dataAlvo = new Date("2026-05-26T00:00:00");
+    // Data alvo: 26 de maio de 2026, 06:00
+    const dataAlvo = new Date("2026-05-26T06:00:00");
 
     const timer = setInterval(() => {
       const agora = new Date();
@@ -26,6 +26,8 @@ export default function Regras() {
           (diferenca % (1000 * 60 * 60)) / (1000 * 60),
         );
         const segundos = Math.floor((diferenca % (1000 * 60)) / 1000);
+
+        // Ajuste para formatar o contador apenas com horas, minutos e segundos
         setTempoRestante(`${horas}h ${minutos}m ${segundos}s`);
       }
     }, 1000);
