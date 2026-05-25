@@ -48,8 +48,24 @@ export default function Regras() {
         <div className="desafios-glow-cyan" />
       </div>
 
-      <main className="desafios-container">
-        <section className="desafios-intro">
+      <main
+        className="desafios-container"
+        /* Estilos inline adicionados para forçar o layout centralizado em coluna */
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "2rem",
+          width: "100%",
+          maxWidth: "900px",
+          margin: "0 auto",
+        }}
+      >
+        <section
+          className="desafios-intro"
+          style={{ textAlign: "center", width: "100%" }}
+        >
           <h1 className="desafios-main-title">Regulamento da Competição</h1>
           <p className="desafios-description">
             Leia atentamente as diretrizes abaixo. O sucesso exige técnica,
@@ -57,7 +73,10 @@ export default function Regras() {
           </p>
         </section>
 
-        <section className="desafio-card">
+        <section
+          className="desafio-card"
+          style={{ width: "100%", maxWidth: "100%" }}
+        >
           <h2 className="desafio-header">
             <span className="dots">● ● ●</span> Cronograma e Envio
           </h2>
@@ -74,7 +93,10 @@ export default function Regras() {
           </div>
         </section>
 
-        <section className="desafio-card">
+        <section
+          className="desafio-card"
+          style={{ width: "100%", maxWidth: "100%" }}
+        >
           <h2 className="desafio-header">
             <span className="dots">● ● ●</span> Especificações Técnicas
           </h2>
@@ -101,7 +123,10 @@ export default function Regras() {
           </div>
         </section>
 
-        <section className="desafio-card">
+        <section
+          className="desafio-card"
+          style={{ width: "100%", maxWidth: "100%" }}
+        >
           <h2 className="desafio-header">
             <span className="dots">● ● ●</span> Sistema de Pontuação
           </h2>
@@ -120,7 +145,15 @@ export default function Regras() {
         </section>
 
         {/* Botão de Competição */}
-        <div className="btn-competicao-wrapper">
+        <div
+          className="btn-competicao-wrapper"
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1rem",
+          }}
+        >
           <a
             href={liberado ? "https://www.codeplac.com.br/desafios" : "#"}
             className={`btn-competicao ${liberado ? "btn-ativo" : "btn-desativado"}`}
