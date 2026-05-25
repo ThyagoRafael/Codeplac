@@ -55,13 +55,16 @@ export default function Juiz() {
     };
 
     try {
-      const response = await fetch("https://www.codeplac.com.br/juiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        "https://codeplac-vh95.onrender.com/juizcodigo",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      });
+      );
 
       if (response.ok) {
         alert("Código enviado com sucesso!");
@@ -139,13 +142,9 @@ export default function Juiz() {
           </div>
         </section>
 
-            <div className="juiz-side-container">
-              <img
-                src={image2}
-                alt="Linguagens"
-                className="juiz-floating-img"
-              />
-            </div>
+        <div className="juiz-side-container">
+          <img src={image2} alt="Linguagens" className="juiz-floating-img" />
+        </div>
 
         {/* Formulário de Envio */}
         <section className="juiz-submission-section">
@@ -215,7 +214,6 @@ export default function Juiz() {
                   <input
                     type="file"
                     hidden
-                    accept=".c,.cpp,.java,.txt"
                     onChange={handleFileUpload}
                   />
                 </label>
